@@ -1,0 +1,4 @@
+description = 'Redis 缓存依赖'
+
+jar.enabled = true
+bootJar.enabled = false

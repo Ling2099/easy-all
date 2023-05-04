@@ -1,0 +1,6 @@
+rootProject.name = 'easy-all'
+include 'easy-basic'
+include 'easy-cache'
+include 'easy-orm'
+include 'easy-file'
+

@@ -1,0 +1,2 @@
+com.orm.conf.MybatisPlusConfig
+com.orm.advice.ScopeAdvice

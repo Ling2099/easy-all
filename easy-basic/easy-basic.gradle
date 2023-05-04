@@ -1,0 +1,4 @@
+description = '基础依赖'
+
+jar.enabled = true
+bootJar.enabled = false

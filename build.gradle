@@ -1,0 +1,202 @@
+/**
+ * 该部分代码应该置顶
+ * buildscript 代码块中的声明是 gradle 脚本自身需要的资源, 可以声明的资源包括依赖项、第三方插件、maven仓库地址等.
+ * gradle 在执行脚本时, 会优先执行 buildscript 代码块中的内容, 然后才会执行剩余的 build 脚本.
+ */
+buildscript {
+	ext {
+		// noinspection GroovyAssignabilityCheck
+		springBootVersion = '3.0.6'
+		// springCloudVersion = 'Hoxton.SR12'
+		// springCloudAlibabaVersion = '2.2.9.RELEASE'
+	}
+
+	repositories {
+		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
+		mavenLocal()
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_release/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+		}
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+		}
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+		mavenCentral()
+	}
+
+	dependencies {
+		// 添加插件依赖路径（通过 jar 方式）
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'idea'
+	id 'java-library'
+	// id "com.google.cloud.tools.jib" version "2.0.0"
+	id 'io.spring.dependency-management' version '1.1.0'
+	// id 'com.github.shalousun.smart-doc' version '2.6.2'
+	// id 'io.freefair.aggregate-javadoc' version '5.3.0'
+}
+
+description '项目开发整合包'
+
+/** 全局通用配置 */
+allprojects {
+	group "org.springframework.boot"
+
+	// JDK17 预览功能
+	tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
+	// 跳过 JavaDoc 检查
+	tasks.withType(Javadoc).all { enabled = false }
+
+	repositories {
+		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
+		mavenLocal()
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_release/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+		}
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+		}
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+		mavenCentral()
+	}
+}
+
+/** 子项目通用配置 */
+subprojects {
+	// java 是 Gradle 的核心插件, 内置的, 内置插件不需要配置依赖路径
+	apply plugin: 'idea'
+	// jar 包发布插件
+	apply plugin: 'maven-publish'
+	// 让 Gradle 自动生成 Intellij 的项目文件
+	apply plugin: 'java-library'
+	// 注意 Gradle 插件不再自动应用, 所以这里需要指定
+	apply plugin: 'org.springframework.boot'
+	// 依赖管理插件仍然是一个 spring-boot-gradle-plugin 传递依赖, 所以无需在 build.gradle 配置中明确列出此依赖
+	apply plugin: 'io.spring.dependency-management'
+
+	// SNAPSHOT: 编码阶段
+	// BETA:     测试阶段
+	// RELEASE:  上线运行阶段
+	group = 'com.super'
+	version = '1.0.0.SNAPSHOT'
+	sourceCompatibility = 17
+	targetCompatibility = 17
+
+	// java 编译的时候缺省状态下会因为中文字符而失败
+	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+	repositories {
+		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
+		mavenLocal()
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_release/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+		}
+		maven {
+			allowInsecureProtocol = true
+			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+		}
+		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+		mavenCentral()
+	}
+
+	// compileOnly:        适用于编译期需要而不需要打包; 参与编译但不参与打包，依赖的包对其它工程不开放
+	// runtimeOnly:        只在运行期有效, 编译时不需要（如 MySQL 驱动）
+	// implementation:     在编译、运行时都有效, 依赖的包不对其它工程开放
+	// testCompileOnly:    用于编译测试的依赖项，运行时不需要
+	// testRuntimeOnly:    只在测试运行时需要，而不是在测试编译时需要
+	// testImplementation: 针对测试代码（src/test 目录） 取代老版本中被移除的 testCompile
+	// providedCompile:    编译、测试阶段代码需要依赖此类 jar 包, 而运行阶段容器已经提供了相应的支持, 所以无需将这些文件打入到 war 包中了
+	// api:                参与编译和打包，依赖的包对其它工程开放
+	// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
+	dependencies {
+		// compileOnlyApi 'org.projectlombok:lombok:1.18.20'
+		// annotationProcessor 'org.projectlombok:lombok:1.18.20'
+		// api 'org.springframework.boot:spring-boot-starter-webflux'
+		// api 'cn.hutool:hutool-all:5.7.18'
+
+		// testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		// testImplementation 'io.projectreactor:reactor-test'
+	}
+
+	// 发布依赖至私服仓库
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+				versionMapping {
+					usage('java-api') {
+						fromResolutionOf('runtimeClasspath')
+					}
+					usage('java-runtime') {
+						fromResolutionResult()
+					}
+				}
+			}
+		}
+
+		repositories {
+			maven {
+				name 'pushToSnapshots'
+				allowInsecureProtocol = true
+				// url 'http://192.168.0.35:8081/repository/lzh_release/'
+				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+				credentials {
+					username 'admin'
+					password 'admin123'
+				}
+			}
+		}
+	}
+
+	java {
+		withSourcesJar()
+		withJavadocJar()
+	}
+
+	// 微服务 Web 接口 API 文档
+//	smartdoc {
+//		configFile = file("src/main/resources/smart-doc.json")
+//		include 'org.springframework.boot:spring-boot-starter-webflux'
+//	}
+}
+
+project(":easy-cache") {
+	dependencies {
+		api 'org.springframework.boot:spring-boot-starter-data-redis'
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	}
+}
+
+project(":easy-orm") {
+	dependencies {
+		compileOnlyApi 'org.projectlombok:lombok:1.18.20'
+		annotationProcessor 'org.projectlombok:lombok:1.18.20'
+		api 'cn.hutool:hutool-all:5.7.18'
+		api 'org.springframework.boot:spring-boot-starter-aop'
+		api 'com.baomidou:mybatis-plus-boot-starter:3.5.2.7-SNAPSHOT'
+		runtimeOnly 'mysql:mysql-connector-java:8.0.15'
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+		// api 'org.springframework.boot:spring-boot-starter-validation'
+		// implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	}
+}
