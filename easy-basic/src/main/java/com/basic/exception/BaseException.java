@@ -7,7 +7,7 @@ package com.basic.exception;
  * @version 1.0.0
  * @since 2023-05-02
  */
-public class SuperException extends RuntimeException {
+public class BaseException extends RuntimeException {
 
     /**
      * 自定义异常提示
@@ -17,7 +17,7 @@ public class SuperException extends RuntimeException {
     /**
      * 无参构造函数
      */
-    public SuperException() {
+    public BaseException() {
         super();
     }
 
@@ -26,7 +26,7 @@ public class SuperException extends RuntimeException {
      *
      * @param msg 错误提示
      */
-    public SuperException(String msg) {
+    public BaseException(String msg) {
         super();
         this.msg = msg;
     }

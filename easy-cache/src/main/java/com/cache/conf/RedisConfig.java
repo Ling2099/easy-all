@@ -116,6 +116,7 @@ import java.util.logging.Logger;
  * @version 1.0.0
  * @since 2023-05-02
  */
+@SuppressWarnings("NullableProblems")
 public class RedisConfig implements CachingConfigurer {
 
     /**

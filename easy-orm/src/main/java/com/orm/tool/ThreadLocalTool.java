@@ -1,4 +1,4 @@
-package com.orm.conf;
+package com.orm.tool;
 
 import cn.hutool.core.map.MapUtil;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0
  * @since 2023-05-04
  */
-public final class ThreadLocalConfig {
+public final class ThreadLocalTool {
 
     /**
      * 线程私有内存数据

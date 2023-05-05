@@ -2,9 +2,11 @@ package com.orm.advice;
 
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.orm.tool.FieldsTool;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -20,6 +22,7 @@ import org.springframework.core.annotation.Order;
  */
 @Aspect
 @Order(10)
+@ConditionalOnProperty(name = "easy.scope")
 public class ScopeAdvice {
 
     /**
@@ -44,18 +47,16 @@ public class ScopeAdvice {
     @Before("execution(* com..*.service.impl..*.find*(..)) || execution(* com..*.service.impl..*.query*(..))")
     public void doScope(JoinPoint joinPoint) {
         // 获取数据权限
-        // ServletUtils.getScope()
-        String scope = "";
+        String scope = FieldsTool.getScope();
         // 获取数据权限类型
-        // ServletUtils.getScopeType() , 这里随便写的
-        Integer scopeType = Math.multiplyExact(1, 1);
+        Integer scopeType = FieldsTool.getScopeType();
 
         // 条件构建 SQL 条件片段
         switch (scopeType) {
             case 2 -> scope = StrUtil.format("scope LIKE '{}%'", scope);
             case 3 -> scope = StrUtil.format("scope = '{}'", scope);
-            case 4 -> scope = StrUtil.format("userId = '{}'", ""); //ServletUtils.getUserId()
-            case 5 -> scope = StrUtil.format("orgId IN ({})", ""); // ServletUtils.getOrgIdStr()
+            case 4 -> scope = StrUtil.format("userId = '{}'", FieldsTool.getUserId());
+            case 5 -> scope = StrUtil.format("orgId IN ({})", FieldsTool.getOrgIds());
             default -> scope = "";
         }
 

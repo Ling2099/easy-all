@@ -10,14 +10,45 @@ package com.orm.constants;
 public final class FieldsConstant {
 
     /**
+     * 用户 ID
+     */
+    public static final String USER_ID = "userId";
+
+    /**
+     * 用户名
+     */
+    public static final String USER_NAME = "userName";
+
+    /**
      * 机构 ID
      */
     public static final String ORG_ID = "orgId";
 
     /**
+     * 机构 ID 集合
+     * <P>类型为字符串, 如: 1, 2, 3</P>
+     */
+    public static final String ORG_IDS = "orgIds";
+
+    /**
      * 数据权限范围
+     *
+     * <p>如: 000100020005</p>
      */
     public static final String SCOPE = "scope";
+
+    /**
+     * 数据权限标识
+     *
+     * <ol>
+     *     <li>全部数据权限</li>
+     *     <li>本级及以下数据权限</li>
+     *     <li>本级数据权限</li>
+     *     <li>仅本人数据权限</li>
+     *     <li>自定义数据权限</li>
+     * </ol>
+     */
+    public static final String SCOPE_TYPE = "scopeType";
 
     /**
      * 是否删除

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.orm.constants.FieldsConstant;
 import com.orm.methods.InsertBatch;
 import com.orm.methods.UpdateBatch;
+import com.orm.tool.FieldsTool;
 import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -70,10 +71,10 @@ public class MybatisPlusConfig implements MetaObjectHandler {
         for (String name : names) {
             switch (name) {
                 case FieldsConstant.ORG_ID       -> this.fillStrategy(meta, name, 1);
-                case FieldsConstant.SCOPE        -> this.fillStrategy(meta, name, "20545854");
+                case FieldsConstant.SCOPE        -> this.fillStrategy(meta, name, FieldsTool.getScope());
                 case FieldsConstant.HAS_DEL      -> this.fillStrategy(meta, name, 0);
-                case FieldsConstant.CREATOR_ID   -> this.fillStrategy(meta, name, "创建人ID");
-                case FieldsConstant.CREATOR      -> this.fillStrategy(meta, name, "创建人");
+                case FieldsConstant.CREATOR_ID   -> this.fillStrategy(meta, name, FieldsTool.getUserId());
+                case FieldsConstant.CREATOR      -> this.fillStrategy(meta, name, FieldsTool.getUserName());
                 case FieldsConstant.CREATE_TIME  -> this.fillStrategy(meta, name, LocalDateTime.now());
                 default -> {}
             }
@@ -90,8 +91,8 @@ public class MybatisPlusConfig implements MetaObjectHandler {
         String[] names = meta.getGetterNames();
         for (String name : names) {
             switch (name) {
-                case FieldsConstant.MODIFIER_ID -> this.fillStrategy(meta, name, 12);
-                case FieldsConstant.MODIFIER    -> this.fillStrategy(meta, name, "修改人");
+                case FieldsConstant.MODIFIER_ID -> this.fillStrategy(meta, name, FieldsTool.getUserId());
+                case FieldsConstant.MODIFIER    -> this.fillStrategy(meta, name, FieldsTool.getUserName());
                 case FieldsConstant.MODIFY_TIME -> this.fillStrategy(meta, name, LocalDateTime.now());
                 default -> {}
             }
