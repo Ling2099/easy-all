@@ -1,6 +1,5 @@
 package com.orm.mapper;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,11 +7,14 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.orm.domain.PageEntity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,7 +53,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
      */
     default void insertBatch(Collection<T> list, int batchSize) {
         Assert.isFalse(batchSize < 1, "batchSize must not be less than one");
-        CollUtil.split(list, batchSize).forEach(this::insertBatch);
+        split(list, batchSize).forEach(this::insertBatch);
     }
 
     /**
@@ -62,7 +64,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
      */
     default void updateBatch(Collection<T> list, int batchSize) {
         Assert.isFalse(batchSize < 1, "batchSize must not be less than one");
-        CollUtil.split(list, batchSize).forEach(this::updateBatch);
+        split(list, batchSize).forEach(this::updateBatch);
     }
 
     /**
@@ -115,6 +117,40 @@ public interface RootMapper<T> extends BaseMapper<T> {
      */
     default <P extends PageEntity> IPage<T> page(P page, Wrapper<T> queryWrapper) {
         return selectPage(new Page<>(page.getPageNum(), page.getPageSize()), queryWrapper);
+    }
+
+    /**
+     * 查询所有数据
+     *
+     * @return {@link List}
+     */
+    default List<T> list() {
+        return selectList(Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 对集合按照指定长度分段，每一个段为单独的集合，返回这个集合的列表
+     *
+     * @param collection 集合
+     * @param size       每个段的长度
+     * @return 分段列表
+     */
+    default List<List<T>> split(Collection<T> collection, int size) {
+        final List<List<T>> result = new ArrayList<>();
+        if (collection == null || collection.isEmpty()) {
+            return result;
+        }
+
+        ArrayList<T> subList = new ArrayList<>(size);
+        for (T t : collection) {
+            if (subList.size() >= size) {
+                result.add(subList);
+                subList = new ArrayList<>(size);
+            }
+            subList.add(t);
+        }
+        result.add(subList);
+        return result;
     }
 
 }

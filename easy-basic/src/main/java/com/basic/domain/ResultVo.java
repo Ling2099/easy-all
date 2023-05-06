@@ -5,25 +5,6 @@ import com.basic.enums.StatusEnum;
 /**
  * 系统统一响应结果类封装
  *
- * ==========================================================================
- * -Xss 设置栈的大小
- *
- * -Xms 堆内存起始大小
- * -Xmx 堆内存最大大小
- *
- * 新生代与老年代结构占比
- * 1、默认 -XX:NewRatio=2 ==> 新生代占1，老年代占2
- * 2、修改 -XX:NewRatio=4 ==> 新生代占1，老年代占4
- * 注意: 当明确有大多数对象的生命周期比较长时，调整加大老年代
- *
- *
- * 在新生代中，默认 -XX:SurvivorRatio=8，代表伊甸园:幸存者0:幸存者1 ==> 8:1:1
- * 但 jvm 中内存划分有自适应机制，可以通过 -XX:-UseAdaptiveSizePolicy 进行关闭
- *
- * 可以使用 -Xmn 设置新生代最大内存大小
- *
- * ==========================================================================
- *
  * @author LZH
  * @version 1.0.0
  * @since 2023-05-02
@@ -214,7 +195,7 @@ public class ResultVo<T> {
      *
      * @return int
      */
-    private int getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -224,7 +205,7 @@ public class ResultVo<T> {
      * @param code {@link #code}
      * @return {@link ResultVo}
      */
-    private ResultVo setCode(int code) {
+    public ResultVo setCode(int code) {
         this.code = code;
         return this;
     }
@@ -234,7 +215,7 @@ public class ResultVo<T> {
      *
      * @return {@link String}
      */
-    private String getMsg() {
+    public String getMsg() {
         return msg;
     }
 
@@ -244,7 +225,7 @@ public class ResultVo<T> {
      * @param msg {@link #msg}
      * @return {@link ResultVo}
      */
-    private ResultVo setMsg(String msg) {
+    public ResultVo setMsg(String msg) {
         this.msg = msg;
         return this;
     }
@@ -254,7 +235,7 @@ public class ResultVo<T> {
      *
      * @return {@link #data}
      */
-    private T getData() {
+    public T getData() {
         return data;
     }
 
@@ -264,7 +245,7 @@ public class ResultVo<T> {
      * @param data {@link #data}
      * @return {@link ResultVo}
      */
-    private ResultVo setData(T data) {
+    public ResultVo setData(T data) {
         this.data = data;
         return this;
     }

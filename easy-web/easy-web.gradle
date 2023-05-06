@@ -1,0 +1,4 @@
+description = 'Web 框架依赖'
+
+jar.enabled = true
+bootJar.enabled = false

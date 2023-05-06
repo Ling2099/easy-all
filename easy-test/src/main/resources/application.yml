@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.120:3369/ttt?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    dbcp2:
+      # 数据库连接池的最小维持连接数
+      min-idle: 5
+      # 初始化连接数
+      initial-size: 5
+      # 最大连接数
+      max-total: 5
+      # 等待连接获取的最大超时时间
+      max-wait-millis: 150
+#  data:
+#    redis:
+#      host: 192.168.0.120
+#      port: 45212
+#      password: Hyrj@123456
+#      database: 4
+#      timeout: 10000
+
+mybatis-plus:
+  configuration:
+    # 是否开启自动驼峰命名规则（camel case）映射
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    # 输出日志文件
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

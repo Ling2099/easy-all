@@ -11,7 +11,7 @@ import com.orm.constants.FieldsConstant;
  * @version 5.0.0
  * @since 2023-05-05
  */
-public class FieldsTool {
+public class StatementTool {
 
     /**
      * 获取当前用户主键 ID
@@ -53,6 +53,8 @@ public class FieldsTool {
 
     /**
      * 获取当前用户的数据权限
+     *
+     * <p>如: 000100020005</p>
      *
      * @return {@link String}
      */

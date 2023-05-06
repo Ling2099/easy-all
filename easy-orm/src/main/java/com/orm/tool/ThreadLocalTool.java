@@ -1,7 +1,5 @@
 package com.orm.tool;
 
-import cn.hutool.core.map.MapUtil;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -56,7 +54,7 @@ public final class ThreadLocalTool {
      */
     private static Map<String, Object> initial() {
         Map<String, Object> map = USER_DATA.get();
-        if (MapUtil.isEmpty(map)) {
+        if (null == map || map.isEmpty()) {
             USER_DATA.set(map = new ConcurrentHashMap<>(32));
         }
         return map;

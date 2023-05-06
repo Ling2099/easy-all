@@ -1,21 +1,16 @@
 package com.orm.conf;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.orm.constants.FieldsConstant;
 import com.orm.methods.InsertBatch;
 import com.orm.methods.UpdateBatch;
-import com.orm.tool.FieldsTool;
-import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,7 +21,7 @@ import java.util.List;
  * @since 2023-05-02
  */
 @MapperScan("com.**.mapper")
-public class MybatisPlusConfig implements MetaObjectHandler {
+public class MybatisPlusConfig {
 
     /**
      * MyBatis Plus 分页拦截器
@@ -58,44 +53,5 @@ public class MybatisPlusConfig implements MetaObjectHandler {
                 return list;
             }
         };
-    }
-
-    /**
-     * 当数据新增时所执行的自动填充逻辑
-     *
-     * @param meta {@link MetaObject}
-     */
-    @Override
-    public void insertFill(MetaObject meta) {
-        String[] names = meta.getGetterNames();
-        for (String name : names) {
-            switch (name) {
-                case FieldsConstant.ORG_ID       -> this.fillStrategy(meta, name, 1);
-                case FieldsConstant.SCOPE        -> this.fillStrategy(meta, name, FieldsTool.getScope());
-                case FieldsConstant.HAS_DEL      -> this.fillStrategy(meta, name, 0);
-                case FieldsConstant.CREATOR_ID   -> this.fillStrategy(meta, name, FieldsTool.getUserId());
-                case FieldsConstant.CREATOR      -> this.fillStrategy(meta, name, FieldsTool.getUserName());
-                case FieldsConstant.CREATE_TIME  -> this.fillStrategy(meta, name, LocalDateTime.now());
-                default -> {}
-            }
-        }
-    }
-
-    /**
-     * 当数据修改时所执行的自动填充逻辑
-     *
-     * @param meta {@link MetaObject}
-     */
-    @Override
-    public void updateFill(MetaObject meta) {
-        String[] names = meta.getGetterNames();
-        for (String name : names) {
-            switch (name) {
-                case FieldsConstant.MODIFIER_ID -> this.fillStrategy(meta, name, FieldsTool.getUserId());
-                case FieldsConstant.MODIFIER    -> this.fillStrategy(meta, name, FieldsTool.getUserName());
-                case FieldsConstant.MODIFY_TIME -> this.fillStrategy(meta, name, LocalDateTime.now());
-                default -> {}
-            }
-        }
     }
 }

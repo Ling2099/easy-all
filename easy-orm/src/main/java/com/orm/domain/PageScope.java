@@ -1,7 +1,5 @@
 package com.orm.domain;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -13,7 +11,6 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 2023-05-02
  */
-@Data
 @SuppressWarnings("JavaDoc")
 public class PageScope implements Serializable {
 
@@ -26,4 +23,21 @@ public class PageScope implements Serializable {
      */
     private String chip;
 
+    /**
+     * getter function
+     *
+     * @return {@link String}
+     */
+    public String getChip() {
+        return chip;
+    }
+
+    /**
+     * setter function
+     *
+     * @param chip {@link #chip}
+     */
+    public void setChip(String chip) {
+        this.chip = chip;
+    }
 }

@@ -1,8 +1,5 @@
 package com.orm.domain;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 /**
  * 自定义系统分页对象
  *
@@ -10,9 +7,7 @@ import lombok.experimental.Accessors;
  * @version 1.0.0
  * @since 2023-05-02
  */
-@Data
-@Accessors(chain = true)
-@SuppressWarnings({"JavaDoc", "Lombok"})
+@SuppressWarnings("JavaDoc")
 public class PageEntity extends PageScope {
 
     /**
@@ -31,4 +26,43 @@ public class PageEntity extends PageScope {
      */
     private Integer pageSize;
 
+    /**
+     * getter function
+     *
+     * @return
+     */
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    /**
+     * setter function
+     *
+     * @param pageNum {@link #pageNum}
+     * @return {@link PageEntity}
+     */
+    public PageEntity setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link Integer}
+     */
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    /**
+     * setter function
+     *
+     * @param pageSize {@link #pageSize}
+     * @return {@link PageEntity}
+     */
+    public PageEntity setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+        return this;
+    }
 }

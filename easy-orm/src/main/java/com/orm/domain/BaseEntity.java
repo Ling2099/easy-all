@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -22,9 +20,7 @@ import java.time.LocalDateTime;
  * @version 1.0.0
  * @since 2023-05-02
  */
-@Data
-@Accessors(chain = true)
-@SuppressWarnings({"Lombok", "JavaDoc"})
+@SuppressWarnings("JavaDoc")
 public class BaseEntity<T extends Model<T>> extends Model<T> {
 
     /**
@@ -107,4 +103,183 @@ public class BaseEntity<T extends Model<T>> extends Model<T> {
     @TableField(fill = FieldFill.INSERT)
     private Integer hasDel;
 
+    /**
+     * getter function
+     *
+     * @return {@link Integer}
+     */
+    public Integer getCreatorId() {
+        return creatorId;
+    }
+
+    /**
+     * setter function
+     *
+     * @param creatorId {@link #creatorId}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link String}
+     */
+    public String getCreator() {
+        return creator;
+    }
+
+    /**
+     * setter function
+     *
+     * @param creator {@link #creator}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setCreator(String creator) {
+        this.creator = creator;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link LocalDateTime}
+     */
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * setter function
+     *
+     * @param createTime {@link #createTime}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link Integer}
+     */
+    public Integer getModifierId() {
+        return modifierId;
+    }
+
+    /**
+     * setter function
+     *
+     * @param modifierId {@link #modifierId}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setModifierId(Integer modifierId) {
+        this.modifierId = modifierId;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link String}
+     */
+    public String getModifier() {
+        return modifier;
+    }
+
+    /**
+     * setter function
+     *
+     * @param modifier {@link #modifier}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setModifier(String modifier) {
+        this.modifier = modifier;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link LocalDateTime}
+     */
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
+    }
+
+    /**
+     * setter function
+     *
+     * @param modifyTime {@link #modifyTime}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setModifyTime(LocalDateTime modifyTime) {
+        this.modifyTime = modifyTime;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link Integer}
+     */
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    /**
+     * setter function
+     *
+     * @param orgId {@link #orgId}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setOrgId(Integer orgId) {
+        this.orgId = orgId;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link String}
+     */
+    public String getScope() {
+        return scope;
+    }
+
+    /**
+     * setter function
+     *
+     * @param scope {@link #scope}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setScope(String scope) {
+        this.scope = scope;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link Integer}
+     */
+    public Integer getHasDel() {
+        return hasDel;
+    }
+
+    /**
+     * setter function
+     *
+     * @param hasDel {@link #hasDel}
+     * @return {@link BaseEntity}
+     */
+    public BaseEntity<T> setHasDel(Integer hasDel) {
+        this.hasDel = hasDel;
+        return this;
+    }
 }
