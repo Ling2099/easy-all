@@ -21,7 +21,7 @@ import java.util.Objects;
  * 自定义全局异常处理
  *
  * @author LZH
- * @version 5.0.0
+ * @version 1.0.0
  * @since 2023-05-06
  */
 @ConditionalOnProperty(name = "easy.exception")

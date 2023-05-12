@@ -92,8 +92,8 @@ subprojects {
 	// SNAPSHOT: 编码阶段
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
-	group = 'com.super'
-	version = '1.0.0.SNAPSHOT'
+	group = 'com.easy'
+	version = '1.0.0-RELEASES'
 	sourceCompatibility = 17
 	targetCompatibility = 17
 
@@ -129,6 +129,7 @@ subprojects {
 	// api:                参与编译和打包，依赖的包对其它工程开放
 	// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
 	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
 		// compileOnlyApi 'org.projectlombok:lombok:1.18.20'
 		// annotationProcessor 'org.projectlombok:lombok:1.18.20'
 		// api 'org.springframework.boot:spring-boot-starter-webflux'
@@ -183,7 +184,6 @@ subprojects {
 project(':easy-cache') {
 	dependencies {
 		api 'org.springframework.boot:spring-boot-starter-data-redis'
-		implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	}
 }
 
@@ -192,9 +192,9 @@ project(':easy-orm') {
 		api 'org.springframework.boot:spring-boot-starter-aop'
 		implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-		api 'com.baomidou:mybatis-plus-boot-starter:3.5.2.7-SNAPSHOT'
+		api 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
 		runtimeOnly 'mysql:mysql-connector-java:8.0.15'
-		api 'com.alibaba:druid:1.1.10'
+		// api 'com.alibaba:druid:1.1.10'
 		// api 'org.springframework.boot:spring-boot-starter-validation'
 		// implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	}
@@ -202,15 +202,7 @@ project(':easy-orm') {
 
 project(':easy-web') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-webflux'
 		api project(':easy-basic')
 		api project(':easy-orm')
-	}
-}
-
-project(':easy-test') {
-	dependencies {
-		// annotationProcessor 'org.projectlombok:lombok:1.18.20'
-		implementation project(':easy-web')
 	}
 }
