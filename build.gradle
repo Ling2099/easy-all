@@ -1,14 +1,7 @@
-/**
- * 该部分代码应该置顶
- * buildscript 代码块中的声明是 gradle 脚本自身需要的资源, 可以声明的资源包括依赖项、第三方插件、maven仓库地址等.
- * gradle 在执行脚本时, 会优先执行 buildscript 代码块中的内容, 然后才会执行剩余的 build 脚本.
- */
 buildscript {
 	ext {
 		// noinspection GroovyAssignabilityCheck
 		springBootVersion = '3.0.0'
-		// springCloudVersion = 'Hoxton.SR12'
-		// springCloudAlibabaVersion = '2.2.9.RELEASE'
 	}
 
 	repositories {
@@ -39,17 +32,14 @@ buildscript {
 plugins {
 	id 'idea'
 	id 'java-library'
-	// id "com.google.cloud.tools.jib" version "2.0.0"
 	id 'io.spring.dependency-management' version '1.1.0'
-	// id 'com.github.shalousun.smart-doc' version '2.6.2'
-	// id 'io.freefair.aggregate-javadoc' version '5.3.0'
 }
 
 description '项目开发整合包'
 
 /** 全局通用配置 */
 allprojects {
-	group "org.springframework.boot"
+	group 'org.springframework.boot'
 
 	// JDK17 预览功能
 	tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
@@ -83,6 +73,7 @@ subprojects {
 	// java 是 Gradle 的核心插件, 内置的, 内置插件不需要配置依赖路径
 	apply plugin: 'idea'
 	// jar 包发布插件
+	apply plugin: 'signing'
 	apply plugin: 'maven-publish'
 	// 让 Gradle 自动生成 Intellij 的项目文件
 	apply plugin: 'java-library'
@@ -94,13 +85,24 @@ subprojects {
 	// SNAPSHOT: 编码阶段
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
-	group = 'com.easy'
-	version = '1.0.3-RELEASES'
+	group = 'com.github.Ling2099'
+	version = '1.0.0'
 	sourceCompatibility = 17
 	targetCompatibility = 17
 
 	// java 编译的时候缺省状态下会因为中文字符而失败
 	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+	// 发布签名
+	afterEvaluate { project ->
+		if (project.plugins.hasPlugin('java') || project.plugins.hasPlugin('java-library')) {
+			project.tasks.withType(Sign.class) {
+				if (it.name.startsWith("sign")) {
+					it.enabled = true
+				}
+			}
+		}
+	}
 
 	repositories {
 		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
@@ -130,45 +132,56 @@ subprojects {
 	// providedCompile:    编译、测试阶段代码需要依赖此类 jar 包, 而运行阶段容器已经提供了相应的支持, 所以无需将这些文件打入到 war 包中了
 	// api:                参与编译和打包，依赖的包对其它工程开放
 	// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
-	dependencies {
-		// implementation 'org.springframework.boot:spring-boot-starter-webflux'
-		// compileOnlyApi 'org.projectlombok:lombok:1.18.20'
-		// annotationProcessor 'org.projectlombok:lombok:1.18.20'
-		// api 'org.springframework.boot:spring-boot-starter-webflux'
-		// api 'cn.hutool:hutool-all:5.7.18'
 
-		// testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		// testImplementation 'io.projectreactor:reactor-test'
-	}
-
-	// 发布依赖至私服仓库
+	// 发布依赖至 maven 中央仓库
 	publishing {
 		publications {
 			mavenJava(MavenPublication) {
+				groupId project.group
+				artifactId project.name
+				version "${version}"
 				from components.java
-				versionMapping {
-					usage('java-api') {
-						fromResolutionOf('runtimeClasspath')
+
+				pom {
+					name = 'easy-all'
+					description = '帮助 web 项目开发过程中，简化繁琐的配置、代码及业务逻辑'
+					url = 'https://github.com/Ling2099/easy-all'
+					licenses {
+						license {
+							name = 'Server Side Public License'
+							url = 'https://www.mongodb.com/licensing/server-side-public-license'
+						}
 					}
-					usage('java-runtime') {
-						fromResolutionResult()
+					developers {
+						developer {
+							id = 'Ling2099'
+							name = "${DEVELOPER_NAME}"
+							email = "${DEVELOPER_EMAIL}"
+						}
+					}
+
+					scm {
+						connection = 'https://github.com/Ling2099/easy-all.git'
+						developerConnection = 'https://github.com/Ling2099/easy-all.git'
+						url = 'https://github.com/Ling2099/easy-all'
 					}
 				}
 			}
 		}
-
 		repositories {
 			maven {
-				name 'pushByEasy'
-				allowInsecureProtocol = true
-				url 'http://192.168.0.35:8081/repository/lzh_release/'
-				// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+				name 'maven2'
+				url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
 				credentials {
-					username 'admin'
-					password 'admin123'
+					username = "${NEXUS_USERNAME}"
+					password = "${NEXUS_PASSWORD}"
 				}
 			}
 		}
+	}
+
+	signing {
+		sign publishing.publications.mavenJava
 	}
 
 	java {
@@ -176,7 +189,7 @@ subprojects {
 		withJavadocJar()
 	}
 
-	// 微服务 Web 接口 API 文档
+	// 服务接口 API 文档
 //	smartdoc {
 //		configFile = file("src/main/resources/smart-doc.json")
 //		include 'org.springframework.boot:spring-boot-starter-webflux'
@@ -185,7 +198,7 @@ subprojects {
 
 project(':easy-cache') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-data-redis'
+		api 'org.springframework.boot:spring-boot-starter-data-redis:3.0.0'
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.core:2.10.3.LIFERAY-PATCHED-1'
@@ -194,7 +207,7 @@ project(':easy-cache') {
 
 project(':easy-orm') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-aop'
+		api 'org.springframework.boot:spring-boot-starter-aop:3.0.0'
 		api 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 	}

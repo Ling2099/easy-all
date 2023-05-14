@@ -7,3 +7,4 @@ build
 .gradle
 .git
 node_modules
+gradle.properties
