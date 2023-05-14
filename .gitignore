@@ -1,0 +1,9 @@
+linuxy@linuxy:~/linuxGit$ cat .gitignore
+# this is .gitignore file.
+# 以下是忽略的文件
+out
+build
+.idea
+.gradle
+.git
+node_modules

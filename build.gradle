@@ -16,13 +16,13 @@ buildscript {
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_release/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			url 'http://192.168.0.35:8081/repository/lzh_release/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
@@ -55,19 +55,21 @@ allprojects {
 	tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
 	// 跳过 JavaDoc 检查
 	tasks.withType(Javadoc).all { enabled = false }
+	// 去除 jar 包的附加标识
+	tasks.withType(Jar) { archiveClassifier.set('') }
 
 	repositories {
 		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_release/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			url 'http://192.168.0.35:8081/repository/lzh_release/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
@@ -93,7 +95,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.easy'
-	version = '1.0.0-RELEASES'
+	version = '1.0.3-RELEASES'
 	sourceCompatibility = 17
 	targetCompatibility = 17
 
@@ -105,13 +107,13 @@ subprojects {
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_release/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			url 'http://192.168.0.35:8081/repository/lzh_release/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			// url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
-			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			url 'http://192.168.0.35:8081/repository/lzh_snapshot/'
+			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
@@ -129,7 +131,7 @@ subprojects {
 	// api:                参与编译和打包，依赖的包对其它工程开放
 	// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
 	dependencies {
-		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+		// implementation 'org.springframework.boot:spring-boot-starter-webflux'
 		// compileOnlyApi 'org.projectlombok:lombok:1.18.20'
 		// annotationProcessor 'org.projectlombok:lombok:1.18.20'
 		// api 'org.springframework.boot:spring-boot-starter-webflux'
@@ -157,10 +159,10 @@ subprojects {
 
 		repositories {
 			maven {
-				name 'pushToSnapshots'
+				name 'pushByEasy'
 				allowInsecureProtocol = true
-				// url 'http://192.168.0.35:8081/repository/lzh_release/'
-				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+				url 'http://192.168.0.35:8081/repository/lzh_release/'
+				// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 				credentials {
 					username 'admin'
 					password 'admin123'
@@ -184,19 +186,17 @@ subprojects {
 project(':easy-cache') {
 	dependencies {
 		api 'org.springframework.boot:spring-boot-starter-data-redis'
+		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
+		compileOnly 'com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1'
+		compileOnly 'com.liferay:com.fasterxml.jackson.core:2.10.3.LIFERAY-PATCHED-1'
 	}
 }
 
 project(':easy-orm') {
 	dependencies {
 		api 'org.springframework.boot:spring-boot-starter-aop'
-		implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
 		api 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
-		runtimeOnly 'mysql:mysql-connector-java:8.0.15'
-		// api 'com.alibaba:druid:1.1.10'
-		// api 'org.springframework.boot:spring-boot-starter-validation'
-		// implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 	}
 }
 
@@ -204,5 +204,6 @@ project(':easy-web') {
 	dependencies {
 		api project(':easy-basic')
 		api project(':easy-orm')
+		implementation 'org.springframework:spring-webflux:6.0.2'
 	}
 }
