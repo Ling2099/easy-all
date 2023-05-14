@@ -5,7 +5,6 @@ buildscript {
 	}
 
 	repositories {
-		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
@@ -18,13 +17,10 @@ buildscript {
 			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 		mavenCentral()
 	}
 
 	dependencies {
-		// 添加插件依赖路径（通过 jar 方式）
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
@@ -35,7 +31,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
-description '项目开发整合包'
+description '并不是效果不好，只能说毫无作用'
 
 /** 全局通用配置 */
 allprojects {
@@ -62,8 +58,6 @@ allprojects {
 			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 		mavenCentral()
 	}
 }
@@ -118,20 +112,8 @@ subprojects {
 			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
-		// 配合 MyBatisPlus 3.5.2.7-SNAPSHOT 快照版的仓库, 解决 SpringBoot 3.0.0 与其注入时的异常
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 		mavenCentral()
 	}
-
-	// compileOnly:        适用于编译期需要而不需要打包; 参与编译但不参与打包，依赖的包对其它工程不开放
-	// runtimeOnly:        只在运行期有效, 编译时不需要（如 MySQL 驱动）
-	// implementation:     在编译、运行时都有效, 依赖的包不对其它工程开放
-	// testCompileOnly:    用于编译测试的依赖项，运行时不需要
-	// testRuntimeOnly:    只在测试运行时需要，而不是在测试编译时需要
-	// testImplementation: 针对测试代码（src/test 目录） 取代老版本中被移除的 testCompile
-	// providedCompile:    编译、测试阶段代码需要依赖此类 jar 包, 而运行阶段容器已经提供了相应的支持, 所以无需将这些文件打入到 war 包中了
-	// api:                参与编译和打包，依赖的包对其它工程开放
-	// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
 
 	// 发布依赖至 maven 中央仓库
 	publishing {
@@ -195,6 +177,16 @@ subprojects {
 //		include 'org.springframework.boot:spring-boot-starter-webflux'
 //	}
 }
+
+// compileOnly:        适用于编译期需要而不需要打包; 参与编译但不参与打包，依赖的包对其它工程不开放
+// runtimeOnly:        只在运行期有效, 编译时不需要（如 MySQL 驱动）
+// implementation:     在编译、运行时都有效, 依赖的包不对其它工程开放
+// testCompileOnly:    用于编译测试的依赖项，运行时不需要
+// testRuntimeOnly:    只在测试运行时需要，而不是在测试编译时需要
+// testImplementation: 针对测试代码（src/test 目录） 取代老版本中被移除的 testCompile
+// providedCompile:    编译、测试阶段代码需要依赖此类 jar 包, 而运行阶段容器已经提供了相应的支持, 所以无需将这些文件打入到 war 包中了
+// api:                参与编译和打包，依赖的包对其它工程开放
+// compileOnlyApi:     在声明模块和使用者在编译时需要的依赖项, 但在运行时不需要
 
 project(':easy-cache') {
 	dependencies {
