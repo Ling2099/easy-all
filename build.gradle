@@ -45,7 +45,6 @@ allprojects {
 	tasks.withType(Jar) { archiveClassifier.set('') }
 
 	repositories {
-		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
@@ -80,7 +79,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
-	version = '1.0.0'
+	version = '1.0.1'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
@@ -99,7 +98,6 @@ subprojects {
 	}
 
 	repositories {
-		// 本地仓库 => 代理仓库 => 镜像仓库 => 官方仓库
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
@@ -209,6 +207,6 @@ project(':easy-web') {
 	dependencies {
 		api project(':easy-basic')
 		api project(':easy-orm')
-		implementation 'org.springframework:spring-webflux:5.3.27'
+		compileOnly 'org.springframework:spring-webflux:5.3.27'
 	}
 }

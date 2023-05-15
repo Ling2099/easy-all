@@ -1,11 +1,5 @@
 package com.cache.conf;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
@@ -95,7 +89,7 @@ import java.util.logging.Logger;
  *     </li>
  *     <li>
  *         {@link CacheEvict}<br/>
- *         用来标注在需要清楚缓存元素的方法或类上
+ *         用来标注在需要清除缓存元素的方法或类上
  *         <b>
  *             allEntries 是 boolean 类型, 表示是否需要清除缓存中的所有元素. 默认为false, 表示不需要. 当指定了 allEntries 为 true 时, Spring Cache 将忽略指定的key.
  *             有的时候我们需要 cache 一下清除所有的元素, 这比一个一个清除元素更有效率
@@ -120,8 +114,6 @@ import java.util.logging.Logger;
 @EnableCaching
 public class RedisConfig implements CachingConfigurer {
 
-    // http://www.yinzhongnet.com/219.html
-
     /**
      * 日志记录: {@link Logger}
      */
@@ -136,7 +128,6 @@ public class RedisConfig implements CachingConfigurer {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         Jackson2JsonRedisSerializer<Object> jackson = new Jackson2JsonRedisSerializer<>(Object.class);
-
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
         // key 序列化方式
@@ -161,7 +152,7 @@ public class RedisConfig implements CachingConfigurer {
             // 设置缓存的默认过期时间 ==> 注意: 这里后面改为配置文件
             .entryTtl(Duration.ofSeconds(600))
             // cacheable key 双冒号变为单冒号
-            // .computePrefixWith(name -> ":")
+            .computePrefixWith(name -> ":")
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class)))
             // 不缓存空值
@@ -207,26 +198,4 @@ public class RedisConfig implements CachingConfigurer {
             }
         };
     }
-
-    /**
-     * 创建 JSON 序列化、反序列化对象
-     *
-     * @return {@link Jackson2JsonRedisSerializer}
-     */
-//    public Jackson2JsonRedisSerializer<Object> create(){
-//        return new Jackson2JsonRedisSerializer<>(
-//            new ObjectMapper()
-//                .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-//                // 必须配置,否则反序列化得到的是 LinkedHashMap 对象
-//                .activateDefaultTyping(
-//                    LaissezFaireSubTypeValidator.instance,
-//                    ObjectMapper.DefaultTyping.NON_FINAL,
-//                    JsonTypeInfo.As.WRAPPER_ARRAY
-//                )
-//                // 出现未知字段不报错
-//                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false),
-//            Object.class
-//        );
-//    }
-
 }
