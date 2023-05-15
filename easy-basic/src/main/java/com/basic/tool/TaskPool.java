@@ -417,11 +417,11 @@ public class TaskPool {
      */
     public static void plan(Runnable command, String key, String day, long period, TimeUnit timer) {
         switch (timer) {
-            case DAYS    -> period = Math.multiplyExact(period, DAY_MILLIS);
-            case HOURS   -> period = Math.multiplyExact(period, HOURS_MILLIS);
-            case MINUTES -> period = Math.multiplyExact(period, MINUTES_MILLIS);
-            case SECONDS -> period = Math.multiplyExact(period, SECONDS_SECONDS);
-            default      -> { return; }
+            case DAYS    : period = Math.multiplyExact(period, DAY_MILLIS); break;
+            case HOURS   : period = Math.multiplyExact(period, HOURS_MILLIS); break;
+            case MINUTES : period = Math.multiplyExact(period, MINUTES_MILLIS); break;
+            case SECONDS : period = Math.multiplyExact(period, SECONDS_SECONDS); break;
+            default      : period = 3000;
         }
         plan(command, key, getMillis(day, period), period, TimeUnit.MILLISECONDS);
     }

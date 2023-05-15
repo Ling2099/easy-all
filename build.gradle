@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		// noinspection GroovyAssignabilityCheck
-		springBootVersion = '3.0.0'
+		springBootVersion = '2.7.11'
 	}
 
 	repositories {
@@ -38,7 +38,7 @@ allprojects {
 	group 'org.springframework.boot'
 
 	// JDK17 预览功能
-	tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
+	// tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
 	// 跳过 JavaDoc 检查
 	tasks.withType(Javadoc).all { enabled = false }
 	// 去除 jar 包的附加标识
@@ -81,8 +81,8 @@ subprojects {
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
 	version = '1.0.0'
-	sourceCompatibility = 17
-	targetCompatibility = 17
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 
 	// java 编译的时候缺省状态下会因为中文字符而失败
 	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
@@ -190,7 +190,7 @@ subprojects {
 
 project(':easy-cache') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-data-redis:3.0.0'
+		api 'org.springframework.boot:spring-boot-starter-data-redis:2.7.11'
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.core:2.10.3.LIFERAY-PATCHED-1'
@@ -199,7 +199,7 @@ project(':easy-cache') {
 
 project(':easy-orm') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-aop:3.0.0'
+		api 'org.springframework.boot:spring-boot-starter-aop:2.7.11'
 		api 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 	}
@@ -209,6 +209,6 @@ project(':easy-web') {
 	dependencies {
 		api project(':easy-basic')
 		api project(':easy-orm')
-		implementation 'org.springframework:spring-webflux:6.0.2'
+		implementation 'org.springframework:spring-webflux:5.3.27'
 	}
 }

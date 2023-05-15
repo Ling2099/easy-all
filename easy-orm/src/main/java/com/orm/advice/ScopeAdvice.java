@@ -65,12 +65,12 @@ public class ScopeAdvice {
 
         // 条件构建 SQL 条件片段
         switch (scopeType) {
-            case 2 -> scope = String.format("scope LIKE '%s%%'", scope);
-            case 3 -> scope = String.format("scope = '%s'", scope);
-            case 4 -> scope = String.format("userId = '%s'", StatementTool.getUserId());
-            case 5 -> scope = String.format("orgId IN (%s)", StatementTool.getOrgIds());
-            default -> scope = "";
-        }
+            case 2: scope = String.format("scope LIKE '%s%%'", scope); break;
+            case 3: scope = String.format("scope = '%s'", scope); break;
+            case 4: scope = String.format("userId = '%s'", StatementTool.getUserId()); break;
+            case 5: scope = String.format("orgId IN (%s)", StatementTool.getOrgIds()); break;
+            default: scope = "";
+        };
 
         invokeChip(joinPoint.getArgs()[0], scope);
     }

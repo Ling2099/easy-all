@@ -117,7 +117,10 @@ import java.util.logging.Logger;
  * @since 2023-05-02
  */
 @SuppressWarnings("NullableProblems")
+@EnableCaching
 public class RedisConfig implements CachingConfigurer {
+
+    // http://www.yinzhongnet.com/219.html
 
     /**
      * 日志记录: {@link Logger}
@@ -132,7 +135,7 @@ public class RedisConfig implements CachingConfigurer {
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-        Jackson2JsonRedisSerializer<Object> jackson = create();
+        Jackson2JsonRedisSerializer<Object> jackson = new Jackson2JsonRedisSerializer<>(Object.class);
 
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
@@ -160,7 +163,7 @@ public class RedisConfig implements CachingConfigurer {
             // cacheable key 双冒号变为单冒号
             // .computePrefixWith(name -> ":")
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(create()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class)))
             // 不缓存空值
             .disableCachingNullValues();
 
@@ -210,20 +213,20 @@ public class RedisConfig implements CachingConfigurer {
      *
      * @return {@link Jackson2JsonRedisSerializer}
      */
-    public Jackson2JsonRedisSerializer<Object> create(){
-        return new Jackson2JsonRedisSerializer<>(
-            new ObjectMapper()
-                .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-                // 必须配置,否则反序列化得到的是 LinkedHashMap 对象
-                .activateDefaultTyping(
-                    LaissezFaireSubTypeValidator.instance,
-                    ObjectMapper.DefaultTyping.NON_FINAL,
-                    JsonTypeInfo.As.WRAPPER_ARRAY
-                )
-                // 出现未知字段不报错
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false),
-            Object.class
-        );
-    }
+//    public Jackson2JsonRedisSerializer<Object> create(){
+//        return new Jackson2JsonRedisSerializer<>(
+//            new ObjectMapper()
+//                .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+//                // 必须配置,否则反序列化得到的是 LinkedHashMap 对象
+//                .activateDefaultTyping(
+//                    LaissezFaireSubTypeValidator.instance,
+//                    ObjectMapper.DefaultTyping.NON_FINAL,
+//                    JsonTypeInfo.As.WRAPPER_ARRAY
+//                )
+//                // 出现未知字段不报错
+//                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false),
+//            Object.class
+//        );
+//    }
 
 }

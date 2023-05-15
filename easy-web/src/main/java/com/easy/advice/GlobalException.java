@@ -60,16 +60,17 @@ public class GlobalException implements ErrorWebExceptionHandler {
      * @return {@link ResultVo} 客户端响应结果
      */
     private ResultVo<?> result(Throwable ex) {
-        return switch (ex) {
-            // 当为自定义异常时
-            case BaseException business -> ResultVo.fail(business.getMsg());
-            // 当为全局参数异常时
-            case MethodArgumentNotValidException arg ->
-                    ResultVo.fail(
-                            Objects.requireNonNull(arg.getBindingResult().getFieldError()).getDefaultMessage()
-                    );
-            // 默认响应结果
-            default -> ResultVo.fail();
-        };
+        // 当为自定义异常时
+        if (ex instanceof BaseException) {
+            return ResultVo.fail(((BaseException) ex).getMsg());
+        }
+
+        // 当为全局参数异常时
+        if (ex instanceof MethodArgumentNotValidException) {
+            return ResultVo.fail(Objects.requireNonNull(((MethodArgumentNotValidException) ex).getBindingResult().getFieldError()).getDefaultMessage());
+        }
+
+        // 默认响应结果
+        return ResultVo.fail();
     }
 }

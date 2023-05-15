@@ -2,7 +2,7 @@ module.exports = {
   title: 'Easy-All 帮助文档',
   description: '别再为别人的屎山贡献自己的青春',
   head: [
-    [ 'link', { rel: 'icon', href: 'logo.png' } ]
+    ['link', { rel: 'icon', href: 'logo.png' }]
   ],
   plugins: {
     '@vuepress/medium-zoom': {
@@ -15,13 +15,13 @@ module.exports = {
   themeConfig: {
     sidebar: [
       {
-        title: '介绍',
+        title: '快速开始',
         path: '/view/page01/',
         collapsable: false,
         sidebarDepth: 1
       },
       {
-        title: '快速开始',
+        title: '安装使用',
         path: '/view/start/',
         collapsable: false,
         sidebarDepth: 1
@@ -70,12 +70,18 @@ module.exports = {
       {
         text: '指南',
         items: [
-          { text: '开发指南', link: '/view/dev/index' },
+          { text: '快速开始', link: '/view/page01/index' },
           { text: '运维指南', link: '/view/test/index' },
           { text: '操作手册', link: '/view/prod/index' }
         ]
       },
-      { text: '源码地址', link: '' },
+      {
+        text: '源码地址',
+        items: [
+          { text: 'Gitee', link: 'https://gitee.com/supersame/easy-all' },
+          { text: 'GitHub', link: 'https://github.com/Ling2099/easy-all' }
+        ]
+      },
       { text: '更新日志', link: '/view/log/index' },
       { text: 'MyBatis-Plus', link: 'https://baomidou.com/' }
     ]

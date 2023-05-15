@@ -68,6 +68,17 @@ public interface RootMapper<T> extends BaseMapper<T> {
     }
 
     /**
+     * 批量更新, 根据主键 ID
+     *
+     * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>
+     *
+     * @param list 实体对象集合
+     */
+    default void updateBatchById(Collection<T> list) {
+        list.forEach(this::updateById);
+    }
+
+    /**
      * 批量更新或插入
      *
      * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>

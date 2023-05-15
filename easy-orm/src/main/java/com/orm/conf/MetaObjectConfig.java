@@ -41,13 +41,13 @@ public class MetaObjectConfig implements MetaObjectHandler {
         String[] names = meta.getGetterNames();
         for (String name : names) {
             switch (name) {
-                case FieldsConstant.ORG_ID       -> this.fillStrategy(meta, name, 1);
-                case FieldsConstant.SCOPE        -> this.fillStrategy(meta, name, StatementTool.getScope());
-                case FieldsConstant.HAS_DEL      -> this.fillStrategy(meta, name, 0);
-                case FieldsConstant.CREATOR_ID   -> this.fillStrategy(meta, name, StatementTool.getUserId());
-                case FieldsConstant.CREATOR      -> this.fillStrategy(meta, name, StatementTool.getUserName());
-                case FieldsConstant.CREATE_TIME  -> this.fillStrategy(meta, name, LocalDateTime.now());
-                default -> {}
+                case FieldsConstant.ORG_ID     : this.fillStrategy(meta, name, 1); break;
+                case FieldsConstant.SCOPE      : this.fillStrategy(meta, name, StatementTool.getScope()); break;
+                case FieldsConstant.HAS_DEL    : this.fillStrategy(meta, name, 0); break;
+                case FieldsConstant.CREATOR_ID : this.fillStrategy(meta, name, StatementTool.getUserId()); break;
+                case FieldsConstant.CREATOR    : this.fillStrategy(meta, name, StatementTool.getUserName()); break;
+                case FieldsConstant.CREATE_TIME: this.fillStrategy(meta, name, LocalDateTime.now()); break;
+                default: {}
             }
         }
     }
@@ -66,10 +66,10 @@ public class MetaObjectConfig implements MetaObjectHandler {
         String[] names = meta.getGetterNames();
         for (String name : names) {
             switch (name) {
-                case FieldsConstant.MODIFIER_ID -> this.fillStrategy(meta, name, StatementTool.getUserId());
-                case FieldsConstant.MODIFIER    -> this.fillStrategy(meta, name, StatementTool.getUserName());
-                case FieldsConstant.MODIFY_TIME -> this.fillStrategy(meta, name, LocalDateTime.now());
-                default -> {}
+                case FieldsConstant.MODIFIER_ID: this.fillStrategy(meta, name, StatementTool.getUserId()); break;
+                case FieldsConstant.MODIFIER   : this.fillStrategy(meta, name, StatementTool.getUserName()); break;
+                case FieldsConstant.MODIFY_TIME: this.fillStrategy(meta, name, LocalDateTime.now()); break;
+                default: {}
             }
         }
     }
