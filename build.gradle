@@ -157,6 +157,18 @@ subprojects {
 					password = "${NEXUS_PASSWORD}"
 				}
 			}
+
+			// 本地仓库（应急、测试时使用）
+//			maven {
+//				name 'local'
+//				allowInsecureProtocol = true
+//				url 'http://192.168.0.35:8081/repository/lzh_release/'
+//				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+//				credentials {
+//					username 'admin'
+//					password 'admin123'
+//				}
+//			}
 		}
 	}
 
