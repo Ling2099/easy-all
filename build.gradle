@@ -79,7 +79,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
-	version = '1.0.2'
+	version = '1.0.3'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 

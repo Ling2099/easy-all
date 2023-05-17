@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         title: '安装使用',
-        path: '/view/start/',
+        path: '/view/page02/',
         collapsable: false,
         sidebarDepth: 1
       },

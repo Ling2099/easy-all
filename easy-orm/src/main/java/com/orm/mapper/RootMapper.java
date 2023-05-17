@@ -102,7 +102,8 @@ public interface RootMapper<T> extends BaseMapper<T> {
             String keyProperty = tableInfo.getKeyProperty();
             Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
             Object idVal = tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
-            return StringUtils.checkValNull(idVal) || (Objects.isNull(selectById((Serializable) idVal)) ? insert(entity): updateById(entity)) == 1;
+            return (null == idVal ? insert(entity) : updateById(entity)) >= 1;
+            // return StringUtils.checkValNull(idVal) || (Objects.isNull(selectById((Serializable) idVal)) ? insert(entity): updateById(entity)) >= 1;
         }
         return false;
     }
@@ -115,7 +116,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @return boolean
      */
     default boolean saveOrUpdate(T entity, Wrapper<T> updateWrapper) {
-        return update(entity, updateWrapper) == 1 || saveOrUpdate(entity);
+        return update(entity, updateWrapper) >= 1 || saveOrUpdate(entity);
     }
 
     /**

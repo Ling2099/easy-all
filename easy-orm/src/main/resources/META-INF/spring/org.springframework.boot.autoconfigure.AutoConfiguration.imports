@@ -1,3 +1,2 @@
 com.orm.conf.MybatisPlusConfig
-com.orm.conf.MetaObjectConfig
 com.orm.advice.ScopeAdvice
