@@ -79,7 +79,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
-	version = '1.0.3'
+	version = '1.0.4'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
@@ -159,16 +159,16 @@ subprojects {
 			}
 
 			// 本地仓库（应急、测试时使用）
-//			maven {
-//				name 'local'
-//				allowInsecureProtocol = true
-//				url 'http://192.168.0.35:8081/repository/lzh_release/'
-//				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
-//				credentials {
-//					username 'admin'
-//					password 'admin123'
-//				}
-//			}
+			maven {
+				name 'local'
+				allowInsecureProtocol = true
+				// url 'http://192.168.0.35:8081/repository/lzh_release/'
+				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+				credentials {
+					username 'admin'
+					password 'admin123'
+				}
+			}
 		}
 	}
 
@@ -219,6 +219,6 @@ project(':easy-web') {
 	dependencies {
 		api project(':easy-basic')
 		api project(':easy-orm')
-		compileOnly 'org.springframework:spring-webflux:5.3.27'
+		compileOnly 'org.springframework.boot:spring-boot-starter-web:2.7.11'
 	}
 }

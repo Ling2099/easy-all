@@ -8,7 +8,7 @@ import com.orm.constants.FieldsConstant;
  * <p>可继承并实现额外的工具方法</p>
  *
  * @author LZH
- * @version 5.0.0
+ * @version 1.0.0
  * @since 2023-05-05
  */
 public class StatementTool {

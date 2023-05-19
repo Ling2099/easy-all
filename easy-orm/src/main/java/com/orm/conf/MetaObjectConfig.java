@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * MyBatis-Plus 自动填充配置类
  *
  * @author LZH
- * @version 5.0.0
+ * @version 1.0.0
  * @since 2023-05-06
  */
 public class MetaObjectConfig implements MetaObjectHandler {

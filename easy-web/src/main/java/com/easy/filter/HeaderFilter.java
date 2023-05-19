@@ -1,12 +1,15 @@
 package com.easy.filter;
 
 import com.orm.tool.ThreadLocalTool;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.annotation.Order;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
+import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 可选的 web 过滤器
@@ -15,25 +18,58 @@ import reactor.core.publisher.Mono;
  * @version 1.0.0
  * @since 2023-05-06
  */
-@Order(300)
-@ConditionalOnProperty(name = "easy.filter")
-public class HeaderFilter implements WebFilter {
+public class HeaderFilter implements AsyncHandlerInterceptor {
 
     /**
-     * 请求头设置至本地线程
+     * 请求头拦截器, 并设置至本地线程副本
      *
-     * <p style="color:red">WebFlux 中不推荐使用 ThreadLocal, 后续版本会对此做调整</p>
-     *
-     * @param exchange {@link ServerWebExchange}
-     * @param chain    {@link WebFilterChain}
-     * @return {@link Mono}
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @param handler  {@link Object}
+     * @return boolean
      */
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        exchange.getRequest()
-                .getHeaders()
-                .toSingleValueMap()
-                .forEach(ThreadLocalTool::set);
-        return chain.filter(exchange);
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
+        // 将请求消息头的键值设置至本地线程副本中
+        getHeaderMap(request).forEach(ThreadLocalTool::set);
+
+        return true;
+    }
+
+    /**
+     * 待请求处理完成后, 移除本地线程副本
+     *
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @param handler  {@link Object}
+     * @param ex       {@link Exception}
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+                                @Nullable Exception ex) {
+        ThreadLocalTool.remove();
+    }
+
+    /**
+     * 获取请求所有的头（header）信息
+     *
+     * @param request {@link HttpServletRequest}
+     * @return {@link Map}
+     */
+    private static Map<String, String> getHeaderMap(HttpServletRequest request) {
+        // noinspection AlibabaCollectionInitShouldAssignCapacity
+        final Map<String, String> headerMap = new HashMap<>();
+
+        final Enumeration<String> names = request.getHeaderNames();
+        String name;
+        while (names.hasMoreElements()) {
+            headerMap.put(name = names.nextElement(), request.getHeader(name));
+        }
+
+        return headerMap;
     }
 }

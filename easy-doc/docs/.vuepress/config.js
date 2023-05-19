@@ -23,8 +23,15 @@ module.exports = {
       {
         title: '安装使用',
         path: '/view/page02/',
-        collapsable: false,
-        sidebarDepth: 1
+        collapsable: true,
+        sidebarDepth: 1,
+        children: [
+          '/view/page02/index01.md',
+          '/view/page02/index02.md',
+          '/view/page02/index03.md',
+          '/view/page02/index04.md',
+          '/view/page02/index05.md'
+        ]
       },
       {
         title: '更新日志',
@@ -40,8 +47,8 @@ module.exports = {
         text: '指南',
         items: [
           { text: '快速开始', link: '/view/page01/index' },
-          { text: '安装使用', link: '/view/test/index' },
-          { text: '更新日志', link: '/view/prod/index' }
+          { text: '安装使用', link: '/view/page02/index' },
+          { text: '更新日志', link: '/view/page03/index' }
         ]
       },
       {
@@ -52,7 +59,8 @@ module.exports = {
         ]
       },
       { text: '更新日志', link: '/view/log/index' },
-      { text: 'MyBatis-Plus', link: 'https://baomidou.com/' }
+      { text: 'MyBatis-Plus', link: 'https://baomidou.com/' },
+      { text: 'Hutool', link: 'https://hutool.cn/docs/#/' }
     ]
   }
 }
