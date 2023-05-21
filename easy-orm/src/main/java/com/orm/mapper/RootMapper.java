@@ -2,20 +2,16 @@ package com.orm.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.orm.domain.PageEntity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Mapper 继承该接口后，无需编写 mapper.xml 文件，即可获得 CRUD 功能
@@ -103,7 +99,6 @@ public interface RootMapper<T> extends BaseMapper<T> {
             Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
             Object idVal = tableInfo.getPropertyValue(entity, tableInfo.getKeyProperty());
             return (null == idVal ? insert(entity) : updateById(entity)) >= 1;
-            // return StringUtils.checkValNull(idVal) || (Objects.isNull(selectById((Serializable) idVal)) ? insert(entity): updateById(entity)) >= 1;
         }
         return false;
     }

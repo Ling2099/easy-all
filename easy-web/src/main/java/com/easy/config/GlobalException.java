@@ -2,8 +2,10 @@ package com.easy.config;
 
 import com.basic.domain.ResultVo;
 import com.basic.exception.BaseException;
+import com.easy.interfaces.LogExtend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -34,6 +36,10 @@ public class GlobalException extends RuntimeException {
 
     public static final Logger log = LoggerFactory.getLogger(GlobalException.class);
 
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired(required = false)
+    private LogExtend logExtend;
+
     /**
      * 全局异常 {@link Exception} 捕获
      *
@@ -45,6 +51,11 @@ public class GlobalException extends RuntimeException {
     public ResultVo<?> globalHandle(HttpServletResponse response, Exception ex) {
         // 设置 HTTP 响应码
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        if (logExtend != null) {
+            logExtend.log(ex);
+        }
+
         log.error(ex.getMessage(), ex);
         return ResultVo.fail();
     }
@@ -60,6 +71,11 @@ public class GlobalException extends RuntimeException {
     public ResultVo<?> baseHandle(HttpServletResponse response, BaseException ex) {
         // 设置 HTTP 响应码
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        if (logExtend != null) {
+            logExtend.log(ex);
+        }
+
         log.error(ex.getMsg(), ex);
         return StringUtils.hasLength(ex.getMsg()) ? ResultVo.fail() : ResultVo.fail(ex.getMsg());
     }
@@ -78,6 +94,11 @@ public class GlobalException extends RuntimeException {
         assert error != null;
         // 设置 HTTP 响应码
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        if (logExtend != null) {
+            logExtend.log(ex);
+        }
+
         log.error(error.getDefaultMessage(), ex);
         return ResultVo.fail(error.getDefaultMessage());
     }
