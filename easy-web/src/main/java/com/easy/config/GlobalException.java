@@ -77,7 +77,7 @@ public class GlobalException extends RuntimeException {
         }
 
         log.error(ex.getMsg(), ex);
-        return StringUtils.hasLength(ex.getMsg()) ? ResultVo.fail() : ResultVo.fail(ex.getMsg());
+        return StringUtils.hasLength(ex.getMsg()) ? ResultVo.fail(ex.getMsg()): ResultVo.fail();
     }
 
     /**
