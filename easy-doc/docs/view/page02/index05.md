@@ -69,7 +69,7 @@ easy:
 
 #### 简化的注解
 
-+ 对 @RestController 和 RequestMapping 进行合并处理
++ 对 @RestController 和 @RequestMapping 进行合并处理
 
 ~~~java
 @RestMapping("user")
