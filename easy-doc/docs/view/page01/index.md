@@ -9,4 +9,4 @@ Easy-All 封装了 web 项目中常用依赖配置的基本使用，目的在于
 
 ## 教程案例
 
-请移步至 [easy-demo](www.baidu.com) 查看。
+请移步至 [easy-demo](https://hutool.cn/docs/#/) 查看。
