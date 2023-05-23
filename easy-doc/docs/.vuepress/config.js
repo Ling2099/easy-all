@@ -58,7 +58,7 @@ module.exports = {
           { text: 'GitHub', link: 'https://github.com/Ling2099/easy-all' }
         ]
       },
-      { text: '更新日志', link: '/view/log/index' },
+      { text: '更新日志', link: '/view/page03/index' },
       { text: 'MyBatis-Plus', link: 'https://baomidou.com/' },
       { text: 'Hutool', link: 'https://hutool.cn/docs/#/' }
     ]

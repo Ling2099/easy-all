@@ -29,6 +29,30 @@ easy:
   exception: true
 ~~~
 
+另外, 你还可以实现扩展接口来将异常信息自定义操作, 如持久化至数据库、文件、消息队列等
+
+~~~java
+@Service
+public class YourClass implements LogExtend {
+
+  @Override
+  public void log(Exception ex) {
+      // 你的具体逻辑
+  }
+
+  @Override
+  public void log(BaseException ex) {
+      // 你的具体逻辑
+  }
+
+  @Override
+  public void log(MethodArgumentNotValidException ex) {
+      // 你的具体逻辑
+  }
+
+}
+~~~
+
 #### 消息头拦截
 
 通过在项目配置文件中进行开启, 获得请求时的消息头拦截, 并自动写入本地线程副本（ThreadLocal）中; 相应的, 你也可以配置不被拦截器处理的 url 地址, 如下
