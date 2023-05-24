@@ -2,7 +2,7 @@
 
 ## 文档
 
-请移步至 [帮助文档](https://hutool.cn/docs/#/) 查看
+请移步至 [帮助文档](https://supersame.gitee.io/easy-all/) 查看
 
 ## 特性
 
