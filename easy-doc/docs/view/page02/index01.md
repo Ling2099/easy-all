@@ -16,7 +16,7 @@ implementation 'com.github.Ling2099:easy-basic:latest version'
 implementation group: 'com.github.Ling2099', name: 'easy-basic', version: 'latest version'
 ~~~
 
-#### 响应工具
+#### &#x1F527; 响应工具
 ---
 ::: tip 说明
 封装了基础的 web 接口响应方法, 且实现单例, 避免频繁被创建
@@ -29,7 +29,7 @@ public ResultVo<List<Integer>> getList() {
 }
 ~~~
 
-+ 响应属性及方法
+&#x1F36D; 响应属性及方法
 
 | 名称 | 类型 | 说明 |
 | ---- | ---- | ---- |
@@ -82,7 +82,7 @@ public ResultVo<List<Integer>> getList() {
     </tr>
 </table>
 
-+ 响应状态码和对应的响应信息（StatusEnum）
+&#x1F368; 响应状态码和对应的响应信息（StatusEnum）
 
 | 状态码编号 | 响应信息 |
 | ---- | ---- |

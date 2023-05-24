@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ORM 配置 | Easy-All 帮助文档</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    <link rel="icon" href="logo.png">
+    <meta name="description" content="别再为他人的屎山消耗自己的青春">
+    
+    <link rel="preload" href="/assets/css/0.styles.317e03f0.css" as="style"><link rel="preload" href="/assets/js/app.52828994.js" as="script"><link rel="preload" href="/assets/js/2.c4a55d75.js" as="script"><link rel="preload" href="/assets/js/11.9f03fdae.js" as="script"><link rel="prefetch" href="/assets/js/10.85a9abc0.js"><link rel="prefetch" href="/assets/js/12.37acad6b.js"><link rel="prefetch" href="/assets/js/13.a521c5ff.js"><link rel="prefetch" href="/assets/js/14.87689449.js"><link rel="prefetch" href="/assets/js/15.73506a79.js"><link rel="prefetch" href="/assets/js/3.59e40857.js"><link rel="prefetch" href="/assets/js/4.fc333d27.js"><link rel="prefetch" href="/assets/js/5.91c18d5d.js"><link rel="prefetch" href="/assets/js/6.537e369f.js"><link rel="prefetch" href="/assets/js/7.50bcfebe.js"><link rel="prefetch" href="/assets/js/8.6ecde372.js"><link rel="prefetch" href="/assets/js/9.5fb2940c.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.317e03f0.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/assets/img/claw.png" alt="Easy-All 帮助文档" class="logo"> <span class="site-name can-hide">Easy-All 帮助文档</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="指南" class="dropdown-title"><span class="title">指南</span> <span class="arrow down"></span></button> <button type="button" aria-label="指南" class="mobile-dropdown-title"><span class="title">指南</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/view/page01/index.html" class="nav-link">
+  快速开始
+</a></li><li class="dropdown-item"><!----> <a href="/view/page02/index.html" class="nav-link">
+  安装使用
+</a></li><li class="dropdown-item"><!----> <a href="/view/page03/index.html" class="nav-link">
+  更新日志
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="源码地址" class="dropdown-title"><span class="title">源码地址</span> <span class="arrow down"></span></button> <button type="button" aria-label="源码地址" class="mobile-dropdown-title"><span class="title">源码地址</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/supersame/easy-all" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/Ling2099/easy-all" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/view/page03/index.html" class="nav-link">
+  更新日志
+</a></div><div class="nav-item"><a href="https://baomidou.com/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  MyBatis-Plus
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://hutool.cn/docs/#/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Hutool
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="指南" class="dropdown-title"><span class="title">指南</span> <span class="arrow down"></span></button> <button type="button" aria-label="指南" class="mobile-dropdown-title"><span class="title">指南</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/view/page01/index.html" class="nav-link">
+  快速开始
+</a></li><li class="dropdown-item"><!----> <a href="/view/page02/index.html" class="nav-link">
+  安装使用
+</a></li><li class="dropdown-item"><!----> <a href="/view/page03/index.html" class="nav-link">
+  更新日志
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="源码地址" class="dropdown-title"><span class="title">源码地址</span> <span class="arrow down"></span></button> <button type="button" aria-label="源码地址" class="mobile-dropdown-title"><span class="title">源码地址</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/supersame/easy-all" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/Ling2099/easy-all" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div><div class="nav-item"><a href="/view/page03/index.html" class="nav-link">
+  更新日志
+</a></div><div class="nav-item"><a href="https://baomidou.com/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  MyBatis-Plus
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://hutool.cn/docs/#/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Hutool
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/view/page01/" class="sidebar-link">快速开始</a></li><li><section class="sidebar-group collapsable depth-0"><a href="/view/page02/" class="sidebar-heading clickable router-link-active open"><span>安装使用</span> <span class="arrow down"></span></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/view/page02/index01.html" class="sidebar-link">基础依赖</a></li><li><a href="/view/page02/index02.html" aria-current="page" class="active sidebar-link">ORM 配置</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/view/page02/index03.html" class="sidebar-link">缓存工具</a></li><li><a href="/view/page02/index04.html" class="sidebar-link">文件相关</a></li><li><a href="/view/page02/index05.html" class="sidebar-link">web 整合</a></li></ul></section></li><li><a href="/view/page03/" class="sidebar-link">更新日志</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="orm-配置"><a href="#orm-配置" class="header-anchor">#</a> ORM 配置</h3> <p>Maven:</p> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.github.Ling2099<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>easy-orm<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>latest version<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>Gradle:</p> <div class="language-gradle extra-class"><pre class="language-gradle"><code><span class="token keyword">implementation</span> <span class="token string">'com.github.Ling2099:easy-orm:latest version'</span>
+<span class="token comment">// 或者</span>
+<span class="token keyword">implementation</span> group<span class="token punctuation">:</span> <span class="token string">'com.github.Ling2099'</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'easy-orm'</span><span class="token punctuation">,</span> version<span class="token punctuation">:</span> <span class="token string">'latest version'</span>
+</code></pre></div><h4 id="rootmapper-介绍"><a href="#rootmapper-介绍" class="header-anchor">#</a> RootMapper 介绍</h4> <hr> <div class="custom-block tip"><p class="custom-block-title">说明</p> <p>默认装配了 MyBatis-Plus 的分页拦截器（MySQL）, 可以使用 SpringBoot 的启动注解进行排除（当然你不想使用的话）<br>
+扩充了 Mapper 接口方法, 继承 RootMapper 后, service 实现类可以不用继承 MyBatis-Plus 的 ServiceImpl 类即可获得 CRUD 功能</p></div> <div class="language-java extra-class"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserMapper</span> <span class="token keyword">extends</span> <span class="token class-name">RootMapper</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">User</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+    
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="自动填充配置"><a href="#自动填充配置" class="header-anchor">#</a> 自动填充配置</h4> <hr> <div class="custom-block tip"><p class="custom-block-title">说明</p> <p>默认管理了基础字段的自动填充（未注入 Spring 容器）功能, 如需扩展可以参照如下代码</p></div> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">YourConfig</span> <span class="token keyword">extends</span> <span class="token class-name">MetaObjectConfig</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">insertFill</span><span class="token punctuation">(</span><span class="token class-name">MetaObject</span> meta<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">insertFill</span><span class="token punctuation">(</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 你的填充逻辑   </span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">updateFill</span><span class="token punctuation">(</span><span class="token class-name">MetaObject</span> meta<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">updateFill</span><span class="token punctuation">(</span>meta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 你的填充逻辑</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="业务基础字段"><a href="#业务基础字段" class="header-anchor">#</a> 业务基础字段</h4> <hr> <table><thead><tr><th>字段名</th> <th>映射名</th> <th>说明</th></tr></thead> <tbody><tr><td>creator_id</td> <td>creatorId</td> <td>创建人 ID</td></tr> <tr><td>creator</td> <td>creator</td> <td>创建人</td></tr> <tr><td>create_time</td> <td>createTime</td> <td>创建时间</td></tr> <tr><td>modifier_id</td> <td>modifierId</td> <td>修改人 ID</td></tr> <tr><td>modifier</td> <td>modifier</td> <td>修改人</td></tr> <tr><td>modify_time</td> <td>modifyTime</td> <td>修改时间</td></tr> <tr><td>org_id</td> <td>orgId</td> <td>当前机构节点 ID</td></tr> <tr><td>scope</td> <td>scope</td> <td>数据权限范围</td></tr> <tr><td>has_del</td> <td>hasDel</td> <td>逻辑删除（0: 未删除/1: 已删除）</td></tr></tbody></table> <h4 id="数据权限"><a href="#数据权限" class="header-anchor">#</a> 数据权限</h4> <hr> <div class="custom-block tip"><p class="custom-block-title">说明</p> <p>如需使用, 可以在项目配置文件中开启业务数据权限代理; 此代理会根据本地线程副本中的权限字符进行判别构造出 SQL 片段, 具体使用如下</p></div> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token keyword">DROP</span> <span class="token keyword">TABLE</span> <span class="token keyword">IF</span> <span class="token keyword">EXISTS</span> <span class="token identifier"><span class="token punctuation">`</span>你的表名<span class="token punctuation">`</span></span><span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token identifier"><span class="token punctuation">`</span>你的表名<span class="token punctuation">`</span></span> <span class="token punctuation">(</span>
+  其它字段<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token identifier"><span class="token punctuation">`</span>scope<span class="token punctuation">`</span></span> <span class="token keyword">varchar</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span> <span class="token keyword">CHARACTER</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span> <span class="token keyword">COMMENT</span> <span class="token string">'数据权限字符'</span>
+  数据库中存储类似 <span class="token number">001003008006</span> 这样的值
+<span class="token punctuation">)</span> 
+</code></pre></div><div class="language-yml extra-class"><pre class="language-yml"><code><span class="token comment"># 开启数据权限代理</span>
+<span class="token key atrule">easy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">scope</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre></div><div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">/**
+ * 分页对象继承 PageEntity
+ * 
+ * PageEntity 默认自带 pageNum 和 pageSize 属性, 且继承自 PageScope
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">YourPage</span> <span class="token keyword">extends</span> <span class="token class-name">PageEntity</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 你的分页域</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token comment">/**
+ * 或者你的其它对象可以直接继承 PageScope
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">YourOtherObject</span> <span class="token keyword">extends</span> <span class="token class-name">PageScope</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// 域</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><p>当然你得在每次请求时, 向本地线程副本中设置数据权限类型（详细见后面的本地线程副本工具）</p> <div class="language-java extra-class"><pre class="language-java"><code><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">YourServiceImpl</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">/**
+     * 需要被数据权限代理的方法, 必须以 find 或 query 开头
+     *
+     * 具体的数据权限类型和对应的 SQL 片段如下
+     * 1. 全部数据权限（无 SQL 条件）
+     * 2. 本级及以下数据权限 （scope LIKE '?%'）
+     * 3. 本级数据权限 （scope = ?）
+     * 4. 仅本人数据权限 （userId = ?）
+     * 5. 自定义数据权限 （orgId IN (?, ?, ?)）
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">findPage</span><span class="token punctuation">(</span><span class="token class-name">YourPage</span> page<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 获取 SQL 片段以做实际的拼接</span>
+        <span class="token class-name">String</span> chip <span class="token operator">=</span> page<span class="token punctuation">.</span><span class="token function">getChip</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre></div><h4 id="本地线程副本工具"><a href="#本地线程副本工具" class="header-anchor">#</a> 本地线程副本工具</h4> <hr> <div class="custom-block tip"><p class="custom-block-title">说明</p> <p>ThreadLocalTool 默认提供了如下方法和 header 属性</p></div> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 获取 ThreadLocal 值</span>
+<span class="token class-name">T</span> <span class="token function">get</span><span class="token punctuation">(</span><span class="token class-name">String</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 设置 ThreadLocal 值</span>
+<span class="token keyword">void</span> <span class="token function">set</span><span class="token punctuation">(</span><span class="token class-name">String</span> key<span class="token punctuation">,</span> <span class="token class-name">T</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 移除当前线程的副本数据</span>
+<span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div><p>具体可查看 FieldsConstant 字符常量池</p> <table><thead><tr><th>属性名</th> <th>属性值</th> <th>说明</th></tr></thead> <tbody><tr><td>USER_ID</td> <td>userId</td> <td>用户 ID</td></tr> <tr><td>USER_NAME</td> <td>userName</td> <td>用户名</td></tr> <tr><td>ORG_ID</td> <td>orgId</td> <td>机构 ID</td></tr> <tr><td>ORG_IDS</td> <td>orgIds</td> <td>机构 ID 集合</td></tr> <tr><td>SCOPE</td> <td>scope</td> <td>数据权限范围</td></tr> <tr><td>SCOPE_TYPE</td> <td>scopeType</td> <td>数据权限标识</td></tr> <tr><td>HAS_DEL</td> <td>hasDel</td> <td>是否删除</td></tr> <tr><td>CREATOR_ID</td> <td>creatorId</td> <td>创建人 ID</td></tr> <tr><td>CREATOR</td> <td>creator</td> <td>创建人</td></tr> <tr><td>CREATE_TIME</td> <td>createTime</td> <td>创建时间</td></tr> <tr><td>MODIFIER_ID</td> <td>modifierId</td> <td>修改人 ID</td></tr> <tr><td>MODIFIER</td> <td>modifier</td> <td>修改人</td></tr> <tr><td>MODIFY_TIME</td> <td>modifyTime</td> <td>修改时间</td></tr></tbody></table> <div class="custom-block tip"><p class="custom-block-title">说明</p> <p>为了方便获取当先线程的存储值, 可以使用 StatementTool 工具类, 如下</p></div> <div class="language-java extra-class"><pre class="language-java"><code><span class="token comment">// 获取当前用户主键 ID</span>
+<span class="token class-name">Integer</span> <span class="token function">getUserId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 获取当前用户名</span>
+<span class="token class-name">String</span> <span class="token function">getUserName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 获取当前用户的机构 ID</span>
+<span class="token class-name">Integer</span> <span class="token function">getOrgId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 获取当前用户所拥有的机构 ID 集合字符</span>
+<span class="token class-name">String</span> <span class="token function">getOrgIds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 获取当前用户的数据权限</span>
+<span class="token class-name">String</span> <span class="token function">getScope</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 获取当前用户的数据权限类型</span>
+<span class="token class-name">Integer</span> <span class="token function">getScopeType</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/view/page02/index01.html" class="prev">
+        基础依赖
+      </a></span> <span class="next"><a href="/view/page02/index03.html">
+        缓存工具
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.52828994.js" defer></script><script src="/assets/js/2.c4a55d75.js" defer></script><script src="/assets/js/11.9f03fdae.js" defer></script>
+  </body>
+</html>

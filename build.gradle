@@ -87,15 +87,15 @@ subprojects {
 	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 	// 发布签名
-	afterEvaluate { project ->
-		if (project.plugins.hasPlugin('java') || project.plugins.hasPlugin('java-library')) {
-			project.tasks.withType(Sign.class) {
-				if (it.name.startsWith("sign")) {
-					it.enabled = true
-				}
-			}
-		}
-	}
+//	afterEvaluate { project ->
+//		if (project.plugins.hasPlugin('java') || project.plugins.hasPlugin('java-library')) {
+//			project.tasks.withType(Sign.class) {
+//				if (it.name.startsWith("sign")) {
+//					it.enabled = true
+//				}
+//			}
+//		}
+//	}
 
 	repositories {
 		mavenLocal()
@@ -159,22 +159,22 @@ subprojects {
 			}
 
 			// 本地仓库（应急、测试时使用）
-//			maven {
-//				name 'local'
-//				allowInsecureProtocol = true
-//				url 'http://192.168.0.35:8081/repository/lzh_release/'
-//				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
-//				credentials {
-//					username 'admin'
-//					password 'admin123'
-//				}
-//			}
+			maven {
+				name 'local'
+				allowInsecureProtocol = true
+				// url 'http://192.168.0.35:8081/repository/lzh_release/'
+				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+				credentials {
+					username 'admin'
+					password 'admin123'
+				}
+			}
 		}
 	}
 
-	signing {
-		sign publishing.publications.mavenJava
-	}
+//	signing {
+//		sign publishing.publications.mavenJava
+//	}
 
 	java {
 		withSourcesJar()
@@ -204,6 +204,13 @@ project(':easy-cache') {
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.databind:2.10.5.1.LIFERAY-PATCHED-1'
 		compileOnly 'com.liferay:com.fasterxml.jackson.core:2.10.3.LIFERAY-PATCHED-1'
+	}
+}
+
+project(':easy-file') {
+	dependencies {
+		api 'com.alibaba:easyexcel:3.1.0'
+		compileOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.75'
 	}
 }
 

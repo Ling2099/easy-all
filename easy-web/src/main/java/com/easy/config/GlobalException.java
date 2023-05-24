@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @ConditionalOnProperty(name = "easy.exception")
 public class GlobalException extends RuntimeException {
 
-    public static final Logger log = LoggerFactory.getLogger(GlobalException.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalException.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired(required = false)

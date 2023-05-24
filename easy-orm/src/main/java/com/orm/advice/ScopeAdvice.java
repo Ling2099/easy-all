@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 @ConditionalOnProperty(name = "easy.scope")
 public class ScopeAdvice {
 
-    public static final Logger log = LoggerFactory.getLogger(ScopeAdvice.class);
+    private static final Logger log = LoggerFactory.getLogger(ScopeAdvice.class);
 
     /**
      * 数据权限的 SQL 拼接
