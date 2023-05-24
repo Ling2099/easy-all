@@ -5,7 +5,7 @@ Easy-All 封装了 web 项目中常用依赖配置的基本使用，目的在于
 
 ## 整体结构
 
-![avatar](./project.png)
+![avatar](./index.png)
 
 ## 教程案例
 
