@@ -1,6 +1,7 @@
 module.exports = {
   title: 'Easy-All 帮助文档',
   description: '别再为他人的屎山消耗自己的青春',
+  base: '/easy-all/',
   head: [
     ['link', { rel: 'icon', href: 'logo.png' }]
   ],
