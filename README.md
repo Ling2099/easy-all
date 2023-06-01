@@ -1,4 +1,4 @@
-![标题](./title.png)
+![标题](https://gitee.com/supersame/easy-all/raw/master/title.png)
 
 ## 文档
 
