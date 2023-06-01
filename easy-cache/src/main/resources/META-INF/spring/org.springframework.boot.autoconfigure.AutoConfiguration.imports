@@ -1,2 +1,3 @@
+com.cache.conf.CachingConfig
 com.cache.conf.RedisConfig
 com.cache.tool.RedisTool
