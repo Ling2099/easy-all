@@ -70,5 +70,23 @@ implementation group: 'com.github.Ling2099', name: 'easy-cache', version: 'lates
 | getRight | String, long | 删除并返回列表中从尾部部开始的多个元素 |
 | getRight | String, long, TimeUnit | 删除并返回列表中的第一个尾部的元素 |
 
+#### &#x1F681; 集合类型（Set）
+| 方法名 | 入参参数 | 说明 |
+| ---- | ---- | ---- |
+| addSet | String, Object[] | 添加元素至集合中 |
+| getMembers | String | 获取 key 中的所有值 |
+| getSize | String | 获取 key 对应的集合长度 |
+| random | String | 随即获取 key 对应的集合元素 |
+| random | String, long | 随即获取 key 对应集合中指定个数的元素 |
+| hasMember | String, Object | 判断 key 对应的集合中是否包含指定元素 |
+| remove | String, Object[] | 批量移除 key 对应集合集合中指定的元素 |
+| move | String, Object, String | 将 key1 对应集合中的元素移动至 key2 对应的集合中 |
+| pop | String | 随机弹出 key 对应集合中的元素 |
+| pop | String, long | 随即弹出 key 对应集合中指定个数的元素 |
+| difference | String, String | 获取 key1 与另一个 key2 集合之间的差值 |
+| intersect | String, String | 获取 key1 对应集合与 key2 对应集合的交集元素 |
+| intersect | String, Collection | 获取多个 key 对应集合的交集元素 |
+| union | String, String | 获取两个 key 集合的合集, 并且去重 |
+
 
 
