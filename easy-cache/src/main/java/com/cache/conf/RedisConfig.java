@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -28,7 +29,7 @@ public class RedisConfig {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
 
-        JsonSerializer serializer = new JsonSerializer(Object.class);
+        RedisSerializer serializer = new JsonSerializer(Object.class);
 
         // 使用 StringRedisSerializer 来序列化和反序列化 redis 的 key 值
         template.setKeySerializer(new StringRedisSerializer());
