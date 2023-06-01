@@ -16,11 +16,29 @@ implementation 'com.github.Ling2099:easy-cache:latest version'
 implementation group: 'com.github.Ling2099', name: 'easy-cache', version: 'latest version'
 ~~~
 
+#### 缓存注解
+---
+
 ::: tip 说明
-默认对 RedisTemplate 进行了配置, 且开启了缓存注解, 当然你也可以使用 Spring 工具从容器中移除（如果你不想使用的话）  
-相应的, 你可以使用诸如 <b>@Cacheable</b>、<b>@CachePut</b>、<b>@CacheEvict</b> 等注解进行缓存数据的相关操作。  
-另外整合了 Redis 相关的工具方法 RedisTool, 如下
+可在配置文件中开启 SpringBoot Redis 的缓存注解, 如 <b>@Cacheable</b>、<b>@CachePut</b>、<b>@CacheEvict</b> 等
 :::
+
+~~~yaml
+easy:
+  cache: true
+~~~
+
+#### Redis 客户端操作
+---
+
+::: tip 说明
+默认对 RedisTemplate 进行了配置, 当然你也可以使用 Spring 工具从容器中移除（如果你不想使用的话）; 直接在你的代码中注入 RedisTool 即可
+:::
+
+~~~java
+@Autowired
+private RedisTool tool;
+~~~
 
 #### &#x1F6A2; key 相关操作
 
