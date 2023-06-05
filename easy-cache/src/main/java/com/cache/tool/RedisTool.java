@@ -103,7 +103,7 @@ import java.util.stream.Collectors;
  *             <li>{@link #removeRange(String, long, long)}: 删除指定索引区间范围内的所有元素</li>
  *             <li>{@link #removeByScore(String, double, double)}: 移除指定 score 范围的集合成员</li>
  *             <li>{@link #unionStore(String, String, String)}: 获取 key 和 key1 的并集并存储在 key2 中</li>
- *             <li>{@link #intersectStore(String, String, String)}: 获取 key}和 key1 的交集并存储在 key2 中</li>
+ *             <li>{@link #intersectStore(String, String, String)}: 获取 key 和 key1 的交集并存储在 key2 中</li>
  *             <li>{@link #scan(String)}: 获取指定集合的 value、score 值</li>
  *             <li></li>
  *         </ul>
