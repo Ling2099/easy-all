@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 @SuppressWarnings("JavaDoc")
 public class BaseEntity<T extends Model<T>> extends Model<T> {
 
+    private static final long serialVersionUID = -4351991239120575147L;
+    
     /**
      * 创建人 ID
      *

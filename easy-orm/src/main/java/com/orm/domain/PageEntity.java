@@ -1,5 +1,7 @@
 package com.orm.domain;
 
+import java.io.Serializable;
+
 /**
  * 自定义系统分页对象
  *
@@ -8,7 +10,9 @@ package com.orm.domain;
  * @since 2023-05-02
  */
 @SuppressWarnings("JavaDoc")
-public class PageEntity extends PageScope {
+public class PageEntity implements Serializable {
+
+    private static final long serialVersionUID = -7066207669309293709L;
 
     /**
      * 当前页码

@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.0
  * @since 2023-05-04
  */
+@Deprecated
 public final class ThreadLocalTool {
 
     /**

@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
  * @version 1.0.0
  * @since 2023-05-02
  */
+@Deprecated
 @Aspect
 @Order(10)
 @ConditionalOnProperty(name = "easy.scope")

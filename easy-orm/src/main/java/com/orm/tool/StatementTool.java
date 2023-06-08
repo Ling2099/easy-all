@@ -11,6 +11,7 @@ import com.orm.constants.FieldsConstant;
  * @version 1.0.0
  * @since 2023-05-05
  */
+@Deprecated
 public class StatementTool {
 
     /**

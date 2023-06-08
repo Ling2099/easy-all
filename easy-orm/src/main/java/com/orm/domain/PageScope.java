@@ -11,8 +11,11 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 2023-05-02
  */
+@Deprecated
 @SuppressWarnings("JavaDoc")
 public class PageScope implements Serializable {
+
+    private static final long serialVersionUID = 7532628568017037197L;
 
     /**
      * 数据权限的条件 SQL 片段
