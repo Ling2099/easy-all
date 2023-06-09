@@ -43,6 +43,7 @@ allprojects {
 	tasks.withType(Javadoc).all { enabled = false }
 	// 去除 jar 包的附加标识
 	tasks.withType(Jar) { archiveClassifier.set('') }
+
 	// 清除所有模块的 build 文件和 out 文件夹
 	task cleanBuildAndOut(type: Delete) {
 		delete "${projectDir}/build"

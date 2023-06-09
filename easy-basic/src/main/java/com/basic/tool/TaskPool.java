@@ -1,13 +1,14 @@
 package com.basic.tool;
 
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * 异步任务、定时任务、延迟任务队列配置工具类
@@ -47,7 +48,7 @@ public class TaskPool {
     /**
      * 日志记录: {@link Logger}
      */
-    private static final Logger log = Logger.getLogger("com.basic.tool.TaskPool");
+    private static final Logger log = LoggerFactory.getLogger(TaskPool.class);
 
     /**
      * 换算为毫秒的时间长度
@@ -288,7 +289,7 @@ public class TaskPool {
         try {
             return future.get();
         } catch (InterruptedException | ExecutionException e) {
-            log.log(Level.SEVERE, "Thread Exception: ", e);
+            log.error("Thread Exception: ", e);
         }
         return null;
     }
@@ -352,7 +353,7 @@ public class TaskPool {
         try {
             return submit(() -> (T) QUEUE.take().getT()).get();
         } catch (InterruptedException | ExecutionException e) {
-            log.log(Level.SEVERE, "Thread Exception: ", e);
+            log.error("Thread Exception: ", e);
         }
         return null;
     }
@@ -550,7 +551,7 @@ public class TaskPool {
                 // noinspection ResultOfMethodCallIgnored
                 queue.offer(r, 1, TimeUnit.MINUTES);
             } catch (InterruptedException e) {
-                log.log(Level.SEVERE, "线程丢弃时, 执行拒绝策略错误: ", e.getMessage());
+                log.error("线程丢弃时, 执行拒绝策略错误: ", e.getMessage());
             }
         }
     }
