@@ -5,9 +5,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.function.Function;
 
 /**
  * 文件工具类
+ *
+ * <ol>
+ *     <li>{@link #save(File, File)}: 存储/复制文件</li>
+ * </ol>
  *
  * @author LZH
  * @version 1.0.7
@@ -17,37 +22,15 @@ public class FileTool {
 
     private static final Logger log = LoggerFactory.getLogger(FileTool.class);
 
-    public static void saveChunk(byte[] source, String target) {
-        File file = new File("");
-
-        OutputStream output = null;
-        try {
-            output = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        assert output != null;
-        BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
-
-        try {
-            bufferedOutput.write(source);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        saveChunk(file, new File(target));
-
-        try {
-            output.close();
-            bufferedOutput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static void saveChunk(File source, File target) {
+    /**
+     * 存储/复制文件
+     *
+     * <P style="color:red">NIO 形式</P>
+     *
+     * @param source 源文件对象
+     * @param target 目标文件对象
+     */
+    public static void save(File source, File target) {
         FileInputStream in = null;
         try {
             in = new FileInputStream(source);
@@ -71,24 +54,47 @@ public class FileTool {
             input.transferTo(0, input.size(), output);
         } catch (IOException e) {
             log.error("IO Error: ", e);
+        } finally {
+            try {
+                in.close();
+                out.close();
+                input.close();
+                output.close();
+            } catch (IOException e) {
+                log.error("IO Error: ", e);
+            }
+        }
+    }
+
+    /**
+     * 合并分片文件
+     *
+     */
+    public void merge(long total, File target, Function<Long, File> function) {
+        int len;
+        byte[] bytes = new byte[10_485_760];
+        OutputStream output = null;
+        InputStream input = null;
+
+        try {
+            output = new FileOutputStream(target, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
         try {
-            in.close();
-            out.close();
-            input.close();
-            output.close();
+            for (long i = 1; i <= total; i++) {
+                File file = function.apply(i);
+                input = new FileInputStream(file);
+                while ((len = input.read(bytes)) != -1) {
+                    // 写入合并的新文件中
+                    assert output != null;
+                    output.write(bytes, 0, len);
+                }
+            }
         } catch (IOException e) {
             log.error("IO Error: ", e);
         }
-
-    }
-
-    public static void main(String[] args) {
-        File source = new File("/home/lzh/1.txt");
-        File target = new File("/home/lzh/2.txt");
-
-        saveChunk(source, target);
     }
 
 }
