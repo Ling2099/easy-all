@@ -2,6 +2,7 @@ package com.orm.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
@@ -120,9 +121,9 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @param page         分页对象 {@link PageEntity}
      * @param queryWrapper 条件构造器 {@link Wrapper}
      * @param <P>          泛型, 必须继承至 {@link PageEntity}
-     * @return 分页查询结果 {@link Page}
+     * @return 分页查询结果 {@link IPage}
      */
-    default <P extends PageEntity> Page<T> page(P page, Wrapper<T> queryWrapper) {
+    default <P extends PageEntity> IPage<T> page(P page, Wrapper<T> queryWrapper) {
         return selectPage(new Page<>(page.getPageNum(), page.getPageSize()), queryWrapper);
     }
 

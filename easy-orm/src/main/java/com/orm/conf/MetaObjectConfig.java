@@ -1,9 +1,8 @@
 package com.orm.conf;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.orm.constants.FieldsConstant;
-import com.orm.tool.StatementTool;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,19 @@ import java.time.LocalDateTime;
  * @version 1.0.0
  * @since 2023-05-06
  */
+@ConditionalOnProperty(name = "easy.meta")
 public class MetaObjectConfig implements MetaObjectHandler {
+
+    /**
+     * 实体类公共域
+     *
+     * <ul>
+     *     <li>是否删除</li>
+     *     <li>创建时间</li>
+     *     <li>修改时间</li>
+     * </ul>
+     */
+    private static final String DEL = "del", CREATE_TIME = "createTime", UPDATE_TIME = "updateTime";
 
     /**
      * 当数据新增时所执行的自动填充逻辑
@@ -23,17 +34,12 @@ public class MetaObjectConfig implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject meta) {
-        String[] names = meta.getGetterNames();
-        for (String name : names) {
-            switch (name) {
-                case FieldsConstant.ORG_ID     : this.fillStrategy(meta, name, 1); break;
-                case FieldsConstant.SCOPE      : this.fillStrategy(meta, name, StatementTool.getScope()); break;
-                case FieldsConstant.HAS_DEL    : this.fillStrategy(meta, name, 0); break;
-                case FieldsConstant.CREATOR_ID : this.fillStrategy(meta, name, StatementTool.getUserId()); break;
-                case FieldsConstant.CREATOR    : this.fillStrategy(meta, name, StatementTool.getUserName()); break;
-                case FieldsConstant.CREATE_TIME: this.fillStrategy(meta, name, LocalDateTime.now()); break;
-                default: {}
-            }
+        if (meta.hasSetter(DEL)) {
+            this.fillStrategy(meta, DEL, 0);
+        }
+
+        if (meta.hasSetter(CREATE_TIME)) {
+            this.fillStrategy(meta, CREATE_TIME, LocalDateTime.now());
         }
     }
 
@@ -44,14 +50,8 @@ public class MetaObjectConfig implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject meta) {
-        String[] names = meta.getGetterNames();
-        for (String name : names) {
-            switch (name) {
-                case FieldsConstant.MODIFIER_ID: this.fillStrategy(meta, name, StatementTool.getUserId()); break;
-                case FieldsConstant.MODIFIER   : this.fillStrategy(meta, name, StatementTool.getUserName()); break;
-                case FieldsConstant.MODIFY_TIME: this.fillStrategy(meta, name, LocalDateTime.now()); break;
-                default: {}
-            }
+        if (meta.hasSetter(UPDATE_TIME)) {
+            this.fillStrategy(meta, UPDATE_TIME, LocalDateTime.now());
         }
     }
 }

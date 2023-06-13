@@ -5,13 +5,30 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
-import java.util.function.Function;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 文件工具类
  *
  * <ol>
- *     <li>{@link #save(File, File)}: 存储/复制文件</li>
+ *     <li>{@link #copy(String, String)}: 文件复制</li>
+ *     <li>{@link #write(String, String)}: 文件写入</li>
+ *     <li>{@link #write(byte[], String)}: 文件写入</li>
+ *     <li>{@link #readString(String)}: 文件读取</li>
+ *     <li>{@link #readBytes(String)}: 文件读取</li>
+ *     <li>{@link #split(File, int)}: 文件分片</li>
+ *     <li>{@link #merge(File[], File)}: 文件合并</li>
+ *     <li>{@link #zip(String, String)}: 单文件压缩</li>
+ *     <li>{@link #zip(String[], String)}: 多文件压缩</li>
+ *     <li>{@link #unzip(String, String)}: 文件解压</li>
  * </ol>
  *
  * @author LZH
@@ -20,77 +37,195 @@ import java.util.function.Function;
  */
 public class FileTool {
 
+    /**
+     * 日志对象
+     */
     private static final Logger log = LoggerFactory.getLogger(FileTool.class);
 
     /**
-     * 存储/复制文件
+     * 文件复制
      *
-     * <P style="color:red">NIO 形式</P>
-     *
-     * @param source 源文件对象
-     * @param target 目标文件对象
+     * @param source 源文件地址
+     * @param target 目标文件地址
      */
-    public static void save(File source, File target) {
-        FileInputStream in = null;
+    public static void copy(String source, String target) {
         try {
-            in = new FileInputStream(source);
-        } catch (FileNotFoundException e) {
-            log.error("File not found: ", e);
-        }
-        assert in != null;
-        FileChannel input = in.getChannel();
-
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(target);
-        } catch (FileNotFoundException e) {
-            log.error("File not found: ", e);
-        }
-
-        assert out != null;
-        FileChannel output = out.getChannel();
-
-        try {
-            input.transferTo(0, input.size(), output);
+            Files.copy(Paths.get(source), Paths.get(target));
         } catch (IOException e) {
             log.error("IO Error: ", e);
-        } finally {
-            try {
-                in.close();
-                out.close();
-                input.close();
-                output.close();
-            } catch (IOException e) {
-                log.error("IO Error: ", e);
+        }
+    }
+
+    /**
+     * 文件写入
+     *
+     * @param content 被写入的内容
+     * @param path    文件地址
+     */
+    public static void write(String content, String path) {
+        write(content.getBytes(), path);
+    }
+
+    /**
+     * 文件写入
+     *
+     * @param content 被写入的内容
+     * @param path    文件地址
+     */
+    public static void write(byte[] content, String path) {
+        Path file = Paths.get(path);
+        try {
+            Files.write(file, content);
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+    }
+
+    /**
+     * 文件读取
+     *
+     * @param path 文件地址
+     * @return 文件内容
+     */
+    public static String readString(String path) {
+        byte[] bytes = readBytes(path);
+        // noinspection ConstantConditions
+        return new String(bytes);
+    }
+
+    /**
+     * 文件读取
+     *
+     * @param path 文件地址
+     * @return 文件内容
+     */
+    public static byte[] readBytes(String path) {
+        Path file = Paths.get(path);
+        try {
+             return Files.readAllBytes(file);
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+        return null;
+    }
+
+    /**
+     * 文件分片
+     *
+     * @param source    源文件
+     * @param chunkSize 分片大小
+     */
+    public static void split(File source, int chunkSize) {
+        byte[] buffer = new byte[chunkSize];
+        String fileName = source.getName();
+        int partCounter = 0;
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(source))) {
+            int bytesAmount = 0;
+            while ((bytesAmount = bis.read(buffer)) > 0) {
+                String filePartName = String.format("%s.%03d", fileName, partCounter++);
+                File newFile = new File(source.getParent(), filePartName);
+                try (FileOutputStream out = new FileOutputStream(newFile)) {
+                    out.write(buffer, 0, bytesAmount);
+                }
             }
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
         }
     }
 
     /**
      * 合并分片文件
      *
+     * @param sources 源文件数组
+     * @param target  合并后的目标文件
      */
-    public void merge(long total, File target, Function<Long, File> function) {
-        int len;
-        byte[] bytes = new byte[10_485_760];
-        OutputStream output = null;
-        InputStream input = null;
+    public static void merge(File[] sources, File target) {
+        try (FileOutputStream fos = new FileOutputStream(target);
+             FileChannel dest = fos.getChannel()) {
+            // 文件排序
+            List<File> list = Arrays
+                .stream(sources)
+                .sorted()
+                .collect(Collectors.toList());
 
-        try {
-            output = new FileOutputStream(target, true);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            for (long i = 1; i <= total; i++) {
-                File file = function.apply(i);
-                input = new FileInputStream(file);
-                while ((len = input.read(bytes)) != -1) {
-                    // 写入合并的新文件中
-                    assert output != null;
-                    output.write(bytes, 0, len);
+            for (File file : list) {
+                try (FileInputStream fis = new FileInputStream(file);
+                     FileChannel src = fis.getChannel()) {
+                    src.transferTo(0, src.size(), dest);
                 }
+            }
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+    }
+
+    /**
+     * 单文件压缩
+     *
+     * @param source 源文件地址
+     * @param target 压缩后的目标文件地址
+     */
+    public static void zip(String source, String target) {
+        Path file = Paths.get(source);
+        Path zip = Paths.get(target);
+
+        try (ZipOutputStream outputStream = new ZipOutputStream(Files.newOutputStream(zip))) {
+            ZipEntry entry = new ZipEntry(file.getFileName().toString());
+            outputStream.putNextEntry(entry);
+            byte[] bytes = Files.readAllBytes(file);
+            outputStream.write(bytes, 0, bytes.length);
+            outputStream.closeEntry();
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+    }
+
+    /**
+     * 多文件压缩
+     *
+     * @param source 源文件地址
+     * @param target 压缩后的目标文件地址
+     */
+    public static void zip(String[] source, String target) {
+        List<Path> list = Arrays
+            .stream(source)
+            .map(Paths::get)
+            .collect(Collectors.toList());
+        Path zip = Paths.get(target);
+
+        try (ZipOutputStream outputStream = new ZipOutputStream(Files.newOutputStream(zip))) {
+            for (Path path : list) {
+                ZipEntry entry = new ZipEntry(path.getFileName().toString());
+                outputStream.putNextEntry(entry);
+                byte[] bytes = Files.readAllBytes(path);
+                outputStream.write(bytes, 0, bytes.length);
+                outputStream.closeEntry();
+            }
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+    }
+
+    /**
+     * 文件解压
+     *
+     * @param source 源压缩文件
+     * @param target 解压目录
+     */
+    public static void unzip(String source, String target) {
+        Path zip = Paths.get(source);
+        Path dir = Paths.get(target);
+
+        try (ZipInputStream inputStream = new ZipInputStream(Files.newInputStream(zip))) {
+            ZipEntry entry = inputStream.getNextEntry();
+            while (entry != null) {
+                Path targetPath = dir.resolve(entry.getName());
+                if (!entry.isDirectory()) {
+                    Files.copy(inputStream, targetPath);
+                } else {
+                    Files.createDirectories(targetPath);
+                }
+                entry = inputStream.getNextEntry();
             }
         } catch (IOException e) {
             log.error("IO Error: ", e);
