@@ -4,13 +4,14 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.fill.FillConfig;
+import com.file.conf.ExcelListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -20,8 +21,8 @@ import java.util.function.Consumer;
  * <p>Excel 文件导出</p>
  * <ol>
  *     <li>导出 Excel 文件: {@link #export(String, String, List, HttpServletResponse)}</li>
- *     <li>导出 Excel 文件（带模板）: {@link #export(String, String, byte[], List, HttpServletResponse)}</li>
- *     <li>导出 Excel 文件（带模板、额外填充数据）: {@link #export(String, byte[], List, Object, boolean, HttpServletResponse)}</li>
+ *     <li>导出 Excel 文件（带模板）: {@link #export(String, String, InputStream, List, HttpServletResponse)}</li>
+ *     <li>导出 Excel 文件（带模板、额外填充数据）: {@link #export(String, InputStream, List, Object, boolean, HttpServletResponse)}</li>
  *     <li>导出 Excel 文件（自定义导出逻辑）: {@link #export(String, HttpServletResponse, Consumer)}</li>
  * </ol>
  *
@@ -29,7 +30,9 @@ import java.util.function.Consumer;
  *
  * <p>Excel 文件解析</p>
  * <ol>
- *     <li>测试</li>
+ *     <li>解析 Excel 文件: {@link #parse(InputStream, Class)}</li>
+ *     <li>解析 Excel 文件: {@link #parse(InputStream, Class, Consumer)}</li>
+ *     <li>解析 Excel 文件: {@link #parse(InputStream, Class, int, Consumer)}</li>
  * </ol>
  *
  * @author LZH
@@ -74,13 +77,13 @@ public final class ExcelTool {
      * @param response  {@link HttpServletResponse}
      * @param <T>       泛型
      */
-    public static <T> void export(String fileName, String sheetName, byte[] template,
+    public static <T> void export(String fileName, String sheetName, InputStream template,
                                   List<T> list, HttpServletResponse response) {
         setHeader(fileName, response);
         ServletOutputStream os = getStream(response);
 
         EasyExcel.write(os)
-                .withTemplate(new ByteArrayInputStream(template))
+                .withTemplate(template)
                 .sheet(sheetName)
                 .doFill(list);
 
@@ -99,7 +102,7 @@ public final class ExcelTool {
      * @param <T>      数据集合泛型
      * @param <V>      额外数据泛型
      */
-    public static <T, V> void export(String fileName, byte[] template,
+    public static <T, V> void export(String fileName, InputStream template,
                                      List<T> list, V v,
                                      boolean newRow, HttpServletResponse response) {
         setHeader(fileName, response);
@@ -108,7 +111,7 @@ public final class ExcelTool {
         // 创建操作对象
         ExcelWriter writer = EasyExcel
                 .write(os)
-                .withTemplate(new ByteArrayInputStream(template))
+                .withTemplate(template)
                 .build();
 
         WriteSheet sheet = EasyExcel.writerSheet().build();
@@ -135,6 +138,64 @@ public final class ExcelTool {
 
         consumer.accept(os);
         close(os, response);
+    }
+
+    /**
+     * 解析 Excel 文件
+     *
+     * @param in    Excel 文件输入流
+     * @param clazz 实体类型
+     * @param <T>   泛型
+     * @return 数据集合
+     */
+    public static <T> List<T> parse(InputStream in, Class<T> clazz) {
+        ExcelListener<T> listener = new ExcelListener<>();
+        EasyExcel.read(in, clazz, listener).sheet().doRead();
+        return listener.getData();
+    }
+
+    /**
+     * TODO 待测试
+     *
+     * @param in
+     * @param clazz
+     * @param rowNumber
+     * @param <T>
+     */
+    public static <T> void parse(InputStream in, Class<T> clazz, int rowNumber) {
+        ExcelListener<T> listener = new ExcelListener<>();
+        EasyExcel.read(in, clazz, listener)
+            .sheet()
+            .headRowNumber(rowNumber)
+            .doRead();
+    }
+
+    /**
+     * 解析 Excel 文件
+     *
+     * @param in       Excel 文件输入流
+     * @param clazz    实体类型
+     * @param consumer 客户端自定义方法
+     * @param <T>      泛型
+     */
+    public static <T> void parse(InputStream in, Class<T> clazz, Consumer<List<T>> consumer) {
+        ExcelListener<T> listener = new ExcelListener<>(consumer);
+        EasyExcel.read(in, clazz, listener).sheet().doReadSync();
+    }
+
+    /**
+     * 解析 Excel 文件
+     *
+     * @param in        Excel 文件输入流
+     * @param clazz     实体类型
+     * @param batchSize 文件分批解析时的阈值
+     * @param consumer  客户端自定义方法
+     * @param <T>       泛型
+     */
+    public static <T> void parse(InputStream in, Class<T> clazz,
+                                 int batchSize, Consumer<List<T>> consumer) {
+        ExcelListener<T> listener = new ExcelListener<>(batchSize, consumer);
+        EasyExcel.read(in, clazz, listener).sheet().doReadSync();
     }
 
     /**

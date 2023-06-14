@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -91,6 +92,26 @@ public class FileTool {
         byte[] bytes = readBytes(path);
         // noinspection ConstantConditions
         return new String(bytes);
+    }
+
+    /**
+     * 文件读取
+     *
+     * @param path 文件地址
+     * @return 文件内容
+     */
+    public static InputStream readStream(String path) {
+        File file = new File(path);
+        try (FileInputStream fis = new FileInputStream(file);
+             FileChannel fileChannel = fis.getChannel()) {
+            ByteBuffer buffer = ByteBuffer.allocate((int) fileChannel.size());
+            fileChannel.read(buffer);
+            buffer.flip();
+            return new ByteArrayInputStream(buffer.array());
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+        return null;
     }
 
     /**
