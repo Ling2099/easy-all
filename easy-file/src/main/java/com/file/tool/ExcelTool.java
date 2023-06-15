@@ -5,6 +5,8 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.fill.FillConfig;
 import com.file.conf.ExcelListener;
+import com.file.domain.Head;
+import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +35,7 @@ import java.util.function.Consumer;
  *     <li>解析 Excel 文件: {@link #parse(InputStream, Class)}</li>
  *     <li>解析 Excel 文件: {@link #parse(InputStream, Class, Consumer)}</li>
  *     <li>解析 Excel 文件: {@link #parse(InputStream, Class, int, Consumer)}</li>
+ *     <li>解析 Excel 文件: {@link #parse(InputStream, Class, int)}（<b style="color:red">复杂文件</b>）</li>
  * </ol>
  *
  * @author LZH
@@ -155,22 +158,6 @@ public final class ExcelTool {
     }
 
     /**
-     * TODO 待测试
-     *
-     * @param in
-     * @param clazz
-     * @param rowNumber
-     * @param <T>
-     */
-    public static <T> void parse(InputStream in, Class<T> clazz, int rowNumber) {
-        ExcelListener<T> listener = new ExcelListener<>();
-        EasyExcel.read(in, clazz, listener)
-            .sheet()
-            .headRowNumber(rowNumber)
-            .doRead();
-    }
-
-    /**
      * 解析 Excel 文件
      *
      * @param in       Excel 文件输入流
@@ -196,6 +183,36 @@ public final class ExcelTool {
                                  int batchSize, Consumer<List<T>> consumer) {
         ExcelListener<T> listener = new ExcelListener<>(batchSize, consumer);
         EasyExcel.read(in, clazz, listener).sheet().doReadSync();
+    }
+
+    /**
+     * 解析 Excel 文件（<b style="color:red">复杂文件</b>）
+     *
+     * @param in        Excel 文件输入流
+     * @param clazz     实体类型
+     * @param rowNumber 从第几行开始解析
+     * @param <T>       泛型
+     * @return {@link Pair}
+     * <p>返回数据说明</p>
+     * <ul>
+     *     <li>{@link Pair#getKey()}: Excel 文件表格数据</li>
+     *     <li>
+     *         {@link Pair#getValue()}: Excel 文件头部数据
+     *         <ul>
+     *             <li>{@link Head#getRow()}: 行</li>
+     *             <li>{@link Head#getCol()}: 列</li>
+     *             <li>{@link Head#getVal()}: 文本数据</li>
+     *         </ul>
+     *     </li>
+     * </ul>
+     */
+    public static <T> Pair<List<T>, List<Head>> parse(InputStream in, Class<T> clazz, int rowNumber) {
+        ExcelListener<T> listener = new ExcelListener<>();
+        EasyExcel.read(in, clazz, listener)
+                .sheet()
+                .headRowNumber(rowNumber)
+                .doRead();
+        return Pair.create(listener.getData(), listener.getHead());
     }
 
     /**

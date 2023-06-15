@@ -3,6 +3,7 @@ package com.file.conf;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.read.listener.ReadListener;
+import com.file.domain.Head;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class ExcelListener<T> implements ReadListener<T> {
     private List<T> data;
 
     /**
+     * 解析头部数据承载集合
+     */
+    private List<Head> head;
+
+    /**
      * 集合达到此阈值时, 将会执行客户端自定义方法 {@link #consumer}
      */
     private int batchSize;
@@ -34,10 +40,11 @@ public class ExcelListener<T> implements ReadListener<T> {
     private Consumer<List<T>> consumer;
 
     /**
-     * 无参构造器, 只创建 {@link #data} 集合对象
+     * 无参构造器, 创建 {@link #data}、{@link #head} 集合对象
      */
     public ExcelListener() {
         this.data = new ArrayList<>();
+        this.head = new ArrayList<>();
     }
 
     /**
@@ -77,10 +84,17 @@ public class ExcelListener<T> implements ReadListener<T> {
         }
     }
 
+    /**
+     * 解析 Excel 表格的头部数据
+     *
+     * @param headMap {@link Map}
+     * @param context {@link AnalysisContext}
+     */
     @Override
     public void invokeHead(Map<Integer, ReadCellData<?>> headMap, AnalysisContext context) {
-        // TODO 待测试
-        ReadListener.super.invokeHead(headMap, context);
+        if (head != null) {
+            headMap.forEach((k, v) -> head.add(new Head(v.getRowIndex(), v.getColumnIndex(), v.getStringValue())));
+        }
     }
 
     /**
@@ -102,5 +116,15 @@ public class ExcelListener<T> implements ReadListener<T> {
      */
     public List<T> getData() {
         return data;
+    }
+
+    /**
+     * getter function
+     *
+     * @see Head
+     * @return {@link #head}
+     */
+    public List<Head> getHead() {
+        return head;
     }
 }
