@@ -51,20 +51,18 @@ public final class ExcelTool {
      * 由数据集合 {@code list} 导出 Excel 文件
      *
      * @param fileName  导出的文件名
-     * @param sheetName 文件中的 sheet 名
      * @param list      数据集合
      * @param response  {@link HttpServletResponse}
      * @param <T>       泛型
      */
-    public static <T> void export(String fileName, String sheetName,
-                                  List<T> list, HttpServletResponse response) {
+    public static <T> void export(String fileName, List<T> list, HttpServletResponse response) {
         setHeader(fileName, response);
 
         Class<?> clazz = list.get(0).getClass();
         ServletOutputStream os = getStream(response);
 
         EasyExcel.write(os, clazz)
-                .sheet(sheetName)
+                .sheet()
                 .doWrite(list);
 
         close(os, response);
@@ -74,20 +72,19 @@ public final class ExcelTool {
      * 由数据集合 {@code list} 与模板文件 {@code template} 导出 Excel 文件
      *
      * @param fileName  导出的文件名
-     * @param sheetName 文件中的 sheet 名
      * @param template  Excel 模板文件字节数组
      * @param list      数据集合
      * @param response  {@link HttpServletResponse}
      * @param <T>       泛型
      */
-    public static <T> void export(String fileName, String sheetName, InputStream template,
+    public static <T> void export(String fileName, InputStream template,
                                   List<T> list, HttpServletResponse response) {
         setHeader(fileName, response);
         ServletOutputStream os = getStream(response);
 
         EasyExcel.write(os)
                 .withTemplate(template)
-                .sheet(sheetName)
+                .sheet()
                 .doFill(list);
 
         close(os, response);
