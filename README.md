@@ -1,5 +1,9 @@
 ![标题](https://gitee.com/supersame/easy-all/raw/master/title.png)
 
+## &#x1F389; &#x2728; $\color{#FFB3FF}{您}$$\color{#F0BBFF}{值}$$\color{#E8CCFF}{得}$$\color{#D1BBFF}{拥}$$\color{#CCBBFF}{有}$$\color{#CCCCFF}{更}$$\color{#CCDDFF}{美}$$\color{#CCEEFF}{好}$$\color{#99FFFF}{的}$$\color{#AAFFEE}{未}$$\color{#BBFFEE}{来}$ &#x2728; &#x1F389;
+
+希望这些粗糙的工具可以稍微缓解您工作上烦恼, 腾出时间去创造更好的其它, 而不是一直在原地打转
+
 ## 文档
 
 请移步至 [帮助文档](https://supersame.gitee.io/easy-all/) 查看
@@ -39,8 +43,4 @@ public class Bye {
     }
 }
 ~~~
-
-## &#x1F389; &#x2728; $\color{#FFB3FF}{您}$$\color{#F0BBFF}{值}$$\color{#E8CCFF}{得}$$\color{#D1BBFF}{拥}$$\color{#CCBBFF}{有}$$\color{#CCCCFF}{更}$$\color{#CCDDFF}{美}$$\color{#CCEEFF}{好}$$\color{#99FFFF}{的}$$\color{#AAFFEE}{未}$$\color{#BBFFEE}{来}$ &#x2728; &#x1F389;
-
-希望这些粗糙的工具可以稍微缓解您工作上烦恼, 腾出时间去创造更好的其它, 而不是一直在原地打转
 
