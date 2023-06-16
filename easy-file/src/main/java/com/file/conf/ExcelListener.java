@@ -1,6 +1,7 @@
 package com.file.conf;
 
 import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.enums.CellDataTypeEnum;
 import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.file.domain.Head;
@@ -27,7 +28,7 @@ public class ExcelListener<T> implements ReadListener<T> {
     /**
      * 解析头部数据承载集合
      */
-    private List<Head> head;
+    private List<Head<?>> head;
 
     /**
      * 集合达到此阈值时, 将会执行客户端自定义方法 {@link #consumer}
@@ -93,7 +94,7 @@ public class ExcelListener<T> implements ReadListener<T> {
     @Override
     public void invokeHead(Map<Integer, ReadCellData<?>> headMap, AnalysisContext context) {
         if (head != null) {
-            headMap.forEach((k, v) -> head.add(new Head(v.getRowIndex(), v.getColumnIndex(), v.getStringValue())));
+            headMap.forEach((k, v) -> head.add(new Head<>(v.getRowIndex(), v.getColumnIndex(), getVal(v))));
         }
     }
 
@@ -124,7 +125,25 @@ public class ExcelListener<T> implements ReadListener<T> {
      * @see Head
      * @return {@link #head}
      */
-    public List<Head> getHead() {
+    public List<Head<?>> getHead() {
         return head;
+    }
+
+    /**
+     * 类型 {@link CellDataTypeEnum} 转换
+     *
+     * @param data {@link ReadCellData}
+     * @param <E>  泛型
+     * @return 对应类型的数据
+     */
+    @SuppressWarnings("unchecked")
+    private <E> E getVal(ReadCellData<?> data) {
+        CellDataTypeEnum type = data.getType();
+        switch (type) {
+            case STRING: return (E) data.getStringValue();
+            case NUMBER: return (E) data.getNumberValue();
+            case BOOLEAN: return (E) data.getBooleanValue();
+            default: return (E) data.getData();
+        }
     }
 }

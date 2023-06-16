@@ -7,7 +7,7 @@ package com.file.domain;
  * @version 1.0.7
  * @since 2023-06-15
  */
-public class Head {
+public class Head<E> {
 
     /**
      * 行
@@ -22,7 +22,7 @@ public class Head {
     /**
      * 数据
      */
-    private String val;
+    private E val;
 
     /**
      * 构造函数
@@ -31,7 +31,7 @@ public class Head {
      * @param col {@link #col}
      * @param val {@link #val}
      */
-    public Head(Integer row, Integer col, String val) {
+    public Head(Integer row, Integer col, E val) {
         this.row = row;
         this.col = col;
         this.val = val;
@@ -78,7 +78,7 @@ public class Head {
      *
      * @return {@link #val}
      */
-    public String getVal() {
+    public E getVal() {
         return val;
     }
 
@@ -87,7 +87,7 @@ public class Head {
      *
      * @param val {@link #val}
      */
-    public void setVal(String val) {
+    public void setVal(E val) {
         this.val = val;
     }
 }

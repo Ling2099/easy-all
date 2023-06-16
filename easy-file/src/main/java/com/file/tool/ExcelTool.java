@@ -206,7 +206,7 @@ public final class ExcelTool {
      *     </li>
      * </ul>
      */
-    public static <T> Pair<List<T>, List<Head>> parse(InputStream in, Class<T> clazz, int rowNumber) {
+    public static <T> Pair<List<T>, List<Head<?>>> parse(InputStream in, Class<T> clazz, int rowNumber) {
         ExcelListener<T> listener = new ExcelListener<>();
         EasyExcel.read(in, clazz, listener)
                 .sheet()
