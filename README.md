@@ -35,8 +35,12 @@ implementation group: 'com.github.Ling2099', name: 'easy-basic', version: 'lates
 ~~~Java
 public class Bye {
     public static void main(String[] args) {
-        System.out.println("别再为他人的屎山消耗自己的青春");
+        System.out.println("别再为屎山透支自己的时间");
     }
 }
 ~~~
+
+## &#x1F389; &#x2728; $\color{#FFB3FF}{您}$$\color{#F0BBFF}{值}$$\color{#E8CCFF}{得}$$\color{#D1BBFF}{拥}$$\color{#CCBBFF}{有}$$\color{#CCCCFF}{更}$$\color{#CCDDFF}{美}$$\color{#CCEEFF}{好}$$\color{#99FFFF}{的}$$\color{#AAFFEE}{未}$$\color{#BBFFEE}{来}$ &#x2728; &#x1F389;
+
+希望这些粗糙的工具可以稍微缓解您工作上烦恼, 腾出时间去创造更好的其它, 而不是一直在原地打转
 
