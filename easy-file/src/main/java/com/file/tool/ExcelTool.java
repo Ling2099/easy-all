@@ -6,16 +6,12 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.fill.FillConfig;
 import com.file.conf.ExcelListener;
 import com.file.domain.Head;
+import com.file.template.AbstractStream;
 import org.apache.commons.math3.util.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -43,9 +39,7 @@ import java.util.function.Consumer;
  * @since 2023-05-23
  */
 @SuppressWarnings("ConstantConditions")
-public final class ExcelTool {
-
-    private static final Logger log = LoggerFactory.getLogger(ExcelTool.class);
+public final class ExcelTool extends AbstractStream {
 
     /**
      * 由数据集合 {@code list} 导出 Excel 文件
@@ -59,7 +53,7 @@ public final class ExcelTool {
         setHeader(fileName, response);
 
         Class<?> clazz = list.get(0).getClass();
-        ServletOutputStream os = getStream(response);
+        OutputStream os = getStream(response);
 
         EasyExcel.write(os, clazz)
                 .sheet()
@@ -80,7 +74,7 @@ public final class ExcelTool {
     public static <T> void export(String fileName, InputStream template,
                                   List<T> list, HttpServletResponse response) {
         setHeader(fileName, response);
-        ServletOutputStream os = getStream(response);
+        OutputStream os = getStream(response);
 
         EasyExcel.write(os)
                 .withTemplate(template)
@@ -106,7 +100,7 @@ public final class ExcelTool {
                                      List<T> list, V v,
                                      boolean newRow, HttpServletResponse response) {
         setHeader(fileName, response);
-        ServletOutputStream os = getStream(response);
+        OutputStream os = getStream(response);
 
         // 创建操作对象
         ExcelWriter writer = EasyExcel
@@ -132,9 +126,9 @@ public final class ExcelTool {
      */
     public static void export(String fileName,
                               HttpServletResponse response,
-                              Consumer<ServletOutputStream> consumer) {
+                              Consumer<OutputStream> consumer) {
         setHeader(fileName, response);
-        ServletOutputStream os = getStream(response);
+        OutputStream os = getStream(response);
 
         consumer.accept(os);
         close(os, response);
@@ -212,53 +206,4 @@ public final class ExcelTool {
         return Pair.create(listener.getData(), listener.getHead());
     }
 
-    /**
-     * 设置响应头信息
-     *
-     * @param fileName 导出的文件名
-     * @param response {@link HttpServletResponse}
-     */
-    private static void setHeader(String fileName, HttpServletResponse response) {
-        try {
-            fileName = String.format("attachment; filename=%s", URLEncoder.encode(fileName, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            log.error("String Encode: ", e);
-        }
-
-        response.setCharacterEncoding("utf-8");
-        response.setHeader("Content-Disposition", fileName);
-        response.setHeader("Pragma", "public");
-        response.setHeader("Cache-Control", "no-store");
-        response.addHeader("Cache-Control", "max-age=0");
-    }
-
-    /**
-     * 获取流
-     *
-     * @param response {@link HttpServletResponse}
-     * @return {@link ServletOutputStream}
-     */
-    private static ServletOutputStream getStream(HttpServletResponse response) {
-        try {
-            return response.getOutputStream();
-        } catch (IOException e) {
-            log.error("I/O Exception: ", e);
-        }
-        return null;
-    }
-
-    /**
-     * 关闭流
-     *
-     * @param os {@link ServletOutputStream}
-     */
-    private static void close(ServletOutputStream os, HttpServletResponse response) {
-        try {
-            assert os != null;
-            os.close();
-            response.flushBuffer();
-        } catch (IOException e) {
-            log.error("I/O Exception: ", e);
-        }
-    }
 }
