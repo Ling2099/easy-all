@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,6 +23,8 @@ import java.util.function.Consumer;
  *     <li>导出纯表单的 word 文本文件: {@link #export(String, InputStream, Map, HttpServletResponse)}</li>
  *     <li>导出表单、表格的 word 文本文件: {@link #export(String, InputStream, Map, Map, HttpServletResponse)}</li>
  *     <li>导出表单、图片的 word 文本文件: {@link #export(String, InputStream, Map, HttpServletResponse, Map)}</li>
+ *     <li>导出表单、表格、图片的 word 文本文件: {@link #export(String, InputStream, Map, Map, Map, HttpServletResponse)}</li>
+ *     <li>自定义 word 文本文件导出逻辑: {@link #export(String, HttpServletResponse, Consumer)}</li>
  * </ol>
  *
  * @author LZH
