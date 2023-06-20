@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.function.Consumer;
 
 /**
  * 流相关操作类
@@ -21,12 +22,28 @@ public abstract class AbstractStream {
     private static final Logger log = LoggerFactory.getLogger(AbstractStream.class);
 
     /**
+     * 调用程序
+     *
+     * @param fileName 文件名
+     * @param response {@link HttpServletResponse}
+     * @param consumer {@link Consumer}
+     */
+    protected static void invoker(String fileName, HttpServletResponse response,
+                                 Consumer<OutputStream> consumer) {
+        setHeader(fileName, response);
+        OutputStream os = getStream(response);
+        consumer.accept(os);
+        // noinspection ConstantConditions
+        close(os, response);
+    }
+
+    /**
      * 设置响应头信息
      *
      * @param fileName 导出的文件名
      * @param response {@link HttpServletResponse}
      */
-    protected static void setHeader(String fileName, HttpServletResponse response) {
+    private static void setHeader(String fileName, HttpServletResponse response) {
         try {
             fileName = String.format("attachment; filename=%s", URLEncoder.encode(fileName, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
@@ -46,7 +63,7 @@ public abstract class AbstractStream {
      * @param response {@link HttpServletResponse}
      * @return {@link OutputStream}
      */
-    protected static OutputStream getStream(HttpServletResponse response) {
+    private static OutputStream getStream(HttpServletResponse response) {
         try {
             return response.getOutputStream();
         } catch (IOException e) {
@@ -60,7 +77,7 @@ public abstract class AbstractStream {
      *
      * @param os {@link OutputStream}
      */
-    protected static void close(OutputStream os, HttpServletResponse response) {
+    private static void close(OutputStream os, HttpServletResponse response) {
         try {
             assert os != null;
             os.close();

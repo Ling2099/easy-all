@@ -50,16 +50,8 @@ public final class ExcelTool extends AbstractStream {
      * @param <T>       泛型
      */
     public static <T> void export(String fileName, List<T> list, HttpServletResponse response) {
-        setHeader(fileName, response);
-
         Class<?> clazz = list.get(0).getClass();
-        OutputStream os = getStream(response);
-
-        EasyExcel.write(os, clazz)
-                .sheet()
-                .doWrite(list);
-
-        close(os, response);
+        invoker(fileName, response, os -> EasyExcel.write(os, clazz).sheet().doWrite(list));
     }
 
     /**
@@ -73,15 +65,7 @@ public final class ExcelTool extends AbstractStream {
      */
     public static <T> void export(String fileName, InputStream template,
                                   List<T> list, HttpServletResponse response) {
-        setHeader(fileName, response);
-        OutputStream os = getStream(response);
-
-        EasyExcel.write(os)
-                .withTemplate(template)
-                .sheet()
-                .doFill(list);
-
-        close(os, response);
+        invoker(fileName, response, os -> EasyExcel.write(os).withTemplate(template).sheet().doFill(list));
     }
 
     /**
@@ -99,22 +83,20 @@ public final class ExcelTool extends AbstractStream {
     public static <T, V> void export(String fileName, InputStream template,
                                      List<T> list, V v,
                                      boolean newRow, HttpServletResponse response) {
-        setHeader(fileName, response);
-        OutputStream os = getStream(response);
-
-        // 创建操作对象
-        ExcelWriter writer = EasyExcel
+        invoker(fileName, response, os -> {
+            // 创建操作对象
+            ExcelWriter writer = EasyExcel
                 .write(os)
                 .withTemplate(template)
                 .build();
 
-        WriteSheet sheet = EasyExcel.writerSheet().build();
-        FillConfig config = FillConfig.builder().forceNewRow(newRow).build();
-        // 填充列表、对象
-        writer.fill(list, config, sheet).fill(v, config, sheet);
+            WriteSheet sheet = EasyExcel.writerSheet().build();
+            FillConfig config = FillConfig.builder().forceNewRow(newRow).build();
+            // 填充列表、对象
+            writer.fill(list, config, sheet).fill(v, config, sheet);
 
-        writer.finish();
-        close(os, response);
+            writer.finish();
+        });
     }
 
     /**
@@ -127,11 +109,7 @@ public final class ExcelTool extends AbstractStream {
     public static void export(String fileName,
                               HttpServletResponse response,
                               Consumer<OutputStream> consumer) {
-        setHeader(fileName, response);
-        OutputStream os = getStream(response);
-
-        consumer.accept(os);
-        close(os, response);
+        invoker(fileName, response, consumer);
     }
 
     /**
