@@ -85,7 +85,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
-	version = '1.0.7'
+	version = '1.0.8'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
@@ -186,12 +186,6 @@ subprojects {
 		withSourcesJar()
 		withJavadocJar()
 	}
-
-	// 服务接口 API 文档
-//	smartdoc {
-//		configFile = file("src/main/resources/smart-doc.json")
-//		include 'org.springframework.boot:spring-boot-starter-webflux'
-//	}
 }
 
 // compileOnly:        适用于编译期需要而不需要打包; 参与编译但不参与打包，依赖的包对其它工程不开放
@@ -226,9 +220,16 @@ project(':easy-file') {
 	}
 }
 
+project(':easy-minio') {
+	dependencies {
+		api 'io.minio:minio:8.0.3'
+		compileOnly 'org.springframework:spring-beans:5.3.27'
+		compileOnly 'org.springframework:spring-context:5.3.27'
+	}
+}
+
 project(':easy-orm') {
 	dependencies {
-		api 'org.springframework.boot:spring-boot-starter-aop:2.7.11'
 		api 'com.baomidou:mybatis-plus-boot-starter:3.5.3'
 		compileOnly 'com.liferay:com.fasterxml.jackson.annotations:2.10.3.LIFERAY-PATCHED-1'
 	}

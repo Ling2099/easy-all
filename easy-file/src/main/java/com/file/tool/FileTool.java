@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +32,8 @@ import java.util.zip.ZipOutputStream;
  *     <li>{@link #zip(String, String)}: 单文件压缩</li>
  *     <li>{@link #zip(String[], String)}: 多文件压缩</li>
  *     <li>{@link #unzip(String, String)}: 文件解压</li>
+ *     <li>{@link #convert(long)}: 文件单位转换</li>
+ *     <li>{@link #getBytes(InputStream)}: {@link InputStream} 转字节数组</li>
  * </ol>
  *
  * @author LZH
@@ -251,6 +255,68 @@ public class FileTool {
         } catch (IOException e) {
             log.error("IO Error: ", e);
         }
+    }
+
+    /**
+     * 文件单位转换
+     *
+     * @param size 文件大小
+     * @return 带单位（B、KB、MB、GB）的文件大小
+     */
+    public static String convert(long size) {
+        StringBuilder builder = new StringBuilder();
+        // 单位为字节时
+        if (size < 1024) {
+            return builder.append(size).append("B").toString();
+        } else {
+            size = size / 1024;
+        }
+
+        // 单位为 KB 时
+        if (size < 1024) {
+            return builder.append(size).append("KB").toString();
+        } else {
+            size = size / 1024;
+        }
+
+        // 单位为 MB/GB 时的判断
+        if (size < 1024) {
+            size = size * 100;
+            return builder
+                .append(size / 100)
+                .append(".")
+                .append(size % 100)
+                .append("MB")
+                .toString();
+        } else {
+            size = size * 100 / 1024;
+            return builder
+                .append(size / 100)
+                .append(".")
+                .append(size % 100)
+                .append("GB")
+                .toString();
+        }
+    }
+
+    /**
+     * {@link InputStream} 转字节数组
+     *
+     * @param is {@link InputStream}
+     * @return byte[]
+     */
+    public static byte[] getBytes(InputStream is) {
+        ReadableByteChannel channel = Channels.newChannel(is);
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        while (true) {
+            try {
+                if (channel.read(buffer) == -1) break;
+            } catch (IOException e) {
+                log.error("IO Error: ", e);
+            }
+            buffer.flip();
+        }
+        return buffer.array();
     }
 
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +30,9 @@ public class BaseEntity<T extends Model<T>> extends Model<T> {
      * 创建时间
      *
      * @ignore
+     * @mock 2099-12-31 23:59:59
      */
+    @JsonIgnore
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime createTime;
@@ -38,7 +41,9 @@ public class BaseEntity<T extends Model<T>> extends Model<T> {
      * 修改时间
      *
      * @ignore
+     * @mock 2099-12-31 23:59:59
      */
+    @JsonIgnore
     @TableField(fill = FieldFill.UPDATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime updateTime;
@@ -52,7 +57,9 @@ public class BaseEntity<T extends Model<T>> extends Model<T> {
      * </ul>
      *
      * @ignore
+     * @mock 0
      */
+    @JsonIgnore
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
     private Integer del;

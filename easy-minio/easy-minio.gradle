@@ -1,0 +1,4 @@
+description = 'MinIO 对象存储依赖'
+
+jar.enabled = true
+bootJar.enabled = false

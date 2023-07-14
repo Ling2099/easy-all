@@ -19,6 +19,7 @@ public class PageEntity implements Serializable {
      *
      * @required
      * @mock 1
+     * @since 1.0.0
      */
     private Integer pageNum;
 
@@ -27,6 +28,7 @@ public class PageEntity implements Serializable {
      *
      * @required
      * @mock 10
+     * @since 1.0.0
      */
     private Integer pageSize;
 

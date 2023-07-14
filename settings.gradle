@@ -4,3 +4,5 @@ include 'easy-cache'
 include 'easy-orm'
 include 'easy-file'
 include 'easy-web'
+include 'easy-minio'
+
