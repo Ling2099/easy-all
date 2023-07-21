@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 全局异常处理
+ * 全局异常处理（Tomcat 容器）
  *
  * <ol>
  *     <li>{@link Exception} 系统异常</li>
@@ -31,10 +31,10 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2023-05-19
  */
 @RestControllerAdvice
-@ConditionalOnProperty(name = "easy.exception")
-public class GlobalException extends RuntimeException {
+@ConditionalOnProperty(name = "easy.exception-web")
+public class GlobalWebException extends RuntimeException {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalException.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalWebException.class);
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired(required = false)

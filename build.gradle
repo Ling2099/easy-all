@@ -43,11 +43,11 @@ allprojects {
 	tasks.withType(Javadoc).all { enabled = false }
 	// 去除 jar 包的附加标识
 	tasks.withType(Jar) { archiveClassifier.set('') }
-
 	// 清除所有模块的 build 文件和 out 文件夹
 	task cleanBuildAndOut(type: Delete) {
 		delete "${projectDir}/build"
 		delete "${projectDir}/out"
+		delete "${projectDir}/src/main/generated"
 	}
 
 	repositories {
@@ -85,7 +85,7 @@ subprojects {
 	// BETA:     测试阶段
 	// RELEASE:  上线运行阶段
 	group = 'com.github.Ling2099'
-	version = '1.0.8'
+	version = '1.0.9'
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8
 
@@ -168,8 +168,8 @@ subprojects {
 //			maven {
 //				name 'local'
 //				allowInsecureProtocol = true
-//				url 'http://192.168.0.35:8081/repository/lzh_release/'
-//				url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+//				// url 'http://192.168.0.35:8081/repository/lzh_release/'
+//				// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 //				credentials {
 //					username 'admin'
 //					password 'admin123'
@@ -240,5 +240,6 @@ project(':easy-web') {
 		api project(':easy-basic')
 		api project(':easy-orm')
 		compileOnly 'org.springframework.boot:spring-boot-starter-web:2.7.11'
+		compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
 	}
 }
