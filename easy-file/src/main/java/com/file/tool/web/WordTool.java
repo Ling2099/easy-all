@@ -1,11 +1,11 @@
-package com.file.tool;
+package com.file.tool.web;
 
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.config.ConfigureBuilder;
 import com.deepoove.poi.data.Pictures;
 import com.deepoove.poi.plugin.table.LoopRowTableRenderPolicy;
-import com.file.template.AbstractStream;
+import com.file.template.web.AbstractStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Word 文件导出
+ * Word 文件导出（Web）
  *
  * <ol>
  *     <li>导出纯表单的 word 文本文件: {@link #export(String, InputStream, Map, HttpServletResponse)}</li>
@@ -31,7 +31,7 @@ import java.util.function.Consumer;
  * @version 1.0.7
  * @since 2023-06-19
  */
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "DuplicatedCode"})
 public final class WordTool extends AbstractStream {
 
     private static final Logger log = LoggerFactory.getLogger(WordTool.class);

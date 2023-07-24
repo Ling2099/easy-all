@@ -1,4 +1,4 @@
-package com.file.tool;
+package com.file.tool.webflux;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -6,22 +6,24 @@ import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.fill.FillConfig;
 import com.file.conf.ExcelListener;
 import com.file.domain.Head;
-import com.file.template.AbstractStream;
+import com.file.template.webflux.AbstractStream;
 import org.apache.commons.math3.util.Pair;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * <p>Excel 文件导出</p>
+ * <p>Excel 文件导出（Webflux）</p>
+ *
  * <ol>
- *     <li>导出 Excel 文件: {@link #export(String, List, HttpServletResponse)}</li>
- *     <li>导出 Excel 文件（带模板）: {@link #export(String, InputStream, List, HttpServletResponse)}</li>
- *     <li>导出 Excel 文件（带模板、额外填充数据）: {@link #export(String, InputStream, List, Object, boolean, HttpServletResponse)}</li>
- *     <li>导出 Excel 文件（自定义导出逻辑）: {@link #export(String, HttpServletResponse, Consumer)}</li>
+ *     <li>导出 Excel 文件: {@link #export(String, List, ServerHttpResponse)}</li>
+ *     <li>导出 Excel 文件（带模板）: {@link #export(String, InputStream, List, ServerHttpResponse)}</li>
+ *     <li>导出 Excel 文件（带模板、额外填充数据）: {@link #export(String, InputStream, List, Object, boolean, ServerHttpResponse)}</li>
+ *     <li>导出 Excel 文件（自定义导出逻辑）: {@link #export(String, ServerHttpResponse, Consumer)}</li>
  * </ol>
  *
  * <hr/>
@@ -35,23 +37,23 @@ import java.util.function.Consumer;
  * </ol>
  *
  * @author LZH
- * @version 1.0.5
- * @since 2023-05-23
+ * @version 1.0.9
+ * @since 2023-07-22
  */
-@SuppressWarnings("ConstantConditions")
-public final class ExcelTool extends AbstractStream {
+public class ExcelTool extends AbstractStream {
 
     /**
      * 由数据集合 {@code list} 导出 Excel 文件
      *
-     * @param fileName  导出的文件名
-     * @param list      数据集合
-     * @param response  {@link HttpServletResponse}
-     * @param <T>       泛型
+     * @param fileName 导出的文件名
+     * @param list     数据集合
+     * @param response {@link ServerHttpResponse}
+     * @param <T>      泛型
+     * @return {@link Mono}
      */
-    public static <T> void export(String fileName, List<T> list, HttpServletResponse response) {
+    public static <T> Mono<Void> export(String fileName, List<T> list, ServerHttpResponse response) {
         Class<?> clazz = list.get(0).getClass();
-        invoker(fileName, response, os -> EasyExcel.write(os, clazz).sheet().doWrite(list));
+        return invoker(fileName, response, os -> EasyExcel.write(os, clazz).sheet().doWrite(list));
     }
 
     /**
@@ -60,12 +62,12 @@ public final class ExcelTool extends AbstractStream {
      * @param fileName  导出的文件名
      * @param template  Excel 模板文件字节数组
      * @param list      数据集合
-     * @param response  {@link HttpServletResponse}
+     * @param response  {@link ServerHttpResponse}
      * @param <T>       泛型
      */
-    public static <T> void export(String fileName, InputStream template,
-                                  List<T> list, HttpServletResponse response) {
-        invoker(fileName, response, os -> EasyExcel.write(os).withTemplate(template).sheet().doFill(list));
+    public static <T> Mono<Void> export(String fileName, InputStream template,
+                                  List<T> list, ServerHttpResponse response) {
+        return invoker(fileName, response, os -> EasyExcel.write(os).withTemplate(template).sheet().doFill(list));
     }
 
     /**
@@ -76,19 +78,20 @@ public final class ExcelTool extends AbstractStream {
      * @param list     数据集合
      * @param v        额外的填充对象
      * @param newRow   每次使用列表参数时是否创建一个新行
-     * @param response {@link HttpServletResponse}
+     * @param response {@link ServerHttpResponse}
      * @param <T>      数据集合泛型
      * @param <V>      额外数据泛型
      */
-    public static <T, V> void export(String fileName, InputStream template,
+    public static <T, V> Mono<Void> export(String fileName, InputStream template,
                                      List<T> list, V v,
-                                     boolean newRow, HttpServletResponse response) {
-        invoker(fileName, response, os -> {
+                                     boolean newRow, ServerHttpResponse response) {
+        // noinspection DuplicatedCode
+        return invoker(fileName, response, os -> {
             // 创建操作对象
             ExcelWriter writer = EasyExcel
-                .write(os)
-                .withTemplate(template)
-                .build();
+                    .write(os)
+                    .withTemplate(template)
+                    .build();
 
             WriteSheet sheet = EasyExcel.writerSheet().build();
             FillConfig config = FillConfig.builder().forceNewRow(newRow).build();
@@ -103,13 +106,13 @@ public final class ExcelTool extends AbstractStream {
      * 自定义逻辑导出 Excel 文件
      *
      * @param fileName 导出的文件名
-     * @param response {@link HttpServletResponse}
+     * @param response {@link ServerHttpResponse}
      * @param consumer 自定义函数式接口
      */
-    public static void export(String fileName,
-                              HttpServletResponse response,
+    public static Mono<Void> export(String fileName,
+                              ServerHttpResponse response,
                               Consumer<OutputStream> consumer) {
-        invoker(fileName, response, consumer);
+        return invoker(fileName, response, consumer);
     }
 
     /**
@@ -134,7 +137,7 @@ public final class ExcelTool extends AbstractStream {
      * @param consumer 客户端自定义方法
      * @param <T>      泛型
      */
-    public static <T> void parse(InputStream in, Class<T> clazz, Consumer<List<T>> consumer) {
+    public <T> void parse(InputStream in, Class<T> clazz, Consumer<List<T>> consumer) {
         ExcelListener<T> listener = new ExcelListener<>(consumer);
         EasyExcel.read(in, clazz, listener).sheet().doReadSync();
     }
@@ -148,8 +151,8 @@ public final class ExcelTool extends AbstractStream {
      * @param consumer  客户端自定义方法
      * @param <T>       泛型
      */
-    public static <T> void parse(InputStream in, Class<T> clazz,
-                                 int batchSize, Consumer<List<T>> consumer) {
+    public <T> void parse(InputStream in, Class<T> clazz,
+                          int batchSize, Consumer<List<T>> consumer) {
         ExcelListener<T> listener = new ExcelListener<>(batchSize, consumer);
         EasyExcel.read(in, clazz, listener).sheet().doReadSync();
     }
@@ -175,7 +178,7 @@ public final class ExcelTool extends AbstractStream {
      *     </li>
      * </ul>
      */
-    public static <T> Pair<List<T>, List<Head<?>>> parse(InputStream in, Class<T> clazz, int rowNumber) {
+    public <T> Pair<List<T>, List<Head<?>>> parse(InputStream in, Class<T> clazz, int rowNumber) {
         ExcelListener<T> listener = new ExcelListener<>();
         EasyExcel.read(in, clazz, listener)
                 .sheet()
