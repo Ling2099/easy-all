@@ -87,6 +87,18 @@ public interface RootMapper<T> extends BaseMapper<T> {
     }
 
     /**
+     * 批量更新或插入
+     *
+     * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>
+     *
+     * @param list          实体对象集合
+     * @param updateWrapper {@link Wrapper}
+     */
+    default void saveOrUpdateBatch(Collection<T> list, Wrapper<T> updateWrapper) {
+        list.forEach(entity -> saveOrUpdate(entity, updateWrapper));
+    }
+
+    /**
      * TableId 注解存在更新记录，否插入一条记录
      *
      * @param entity 实体对象
