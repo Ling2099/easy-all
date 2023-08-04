@@ -2,7 +2,7 @@ package com.easy.config;
 
 import com.basic.domain.ResultVo;
 import com.basic.exception.BaseException;
-import com.easy.interfaces.LogExtend;
+import com.easy.interfaces.LogInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class GlobalWebfluxException {
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired(required = false)
-    private LogExtend logExtend;
+    private LogInterface logInterface;
 
     /**
      * 全局异常 {@link Exception} 捕获
@@ -52,8 +52,8 @@ public class GlobalWebfluxException {
         // 设置 HTTP 响应码
         exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        if (logExtend != null) {
-            logExtend.log(ex);
+        if (logInterface != null) {
+            logInterface.log(ex);
         }
 
         log.error(ex.getMessage(), ex);
@@ -72,8 +72,8 @@ public class GlobalWebfluxException {
         // 设置 HTTP 响应码
         exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        if (logExtend != null) {
-            logExtend.log(ex);
+        if (logInterface != null) {
+            logInterface.log(ex);
         }
 
         log.error(ex.getMsg(), ex);
@@ -95,8 +95,8 @@ public class GlobalWebfluxException {
         // 设置 HTTP 响应码
         exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        if (logExtend != null) {
-            logExtend.log(ex);
+        if (logInterface != null) {
+            logInterface.log(ex);
         }
 
         log.error(error.getDefaultMessage(), ex);

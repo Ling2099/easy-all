@@ -35,7 +35,8 @@ description '并不是效果不好，只能说毫无作用'
 
 /** 全局通用配置 */
 allprojects {
-	group 'org.springframework.boot'
+	group 'com.easy'
+	version '1.0.'
 
 	// JDK17 预览功能
 	// tasks.withType(JavaCompile).all { options.compilerArgs += ['--enable-preview'] }
@@ -216,6 +217,7 @@ project(':easy-file') {
 			exclude group: 'org.apache.poi', module: 'poi'
 		}
 		api 'com.deepoove:poi-tl:1.12.0'
+		api 'net.coobird:thumbnailator:0.4.20'
 		compileOnly 'org.apache.tomcat.embed:tomcat-embed-core:9.0.75'
 		compileOnly 'org.springframework:spring-web:5.3.27'
 		implementation 'io.projectreactor:reactor-core:3.4.29'

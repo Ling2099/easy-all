@@ -11,6 +11,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,8 @@ import java.util.zip.ZipOutputStream;
  *     <li>{@link #zip(String[], String)}: 多文件压缩</li>
  *     <li>{@link #unzip(String, String)}: 文件解压</li>
  *     <li>{@link #convert(long)}: 文件单位转换</li>
- *     <li>{@link #getBytes(InputStream)}: {@link InputStream} 转字节数组</li>
+ *     <li>{@link #convertToBytes(InputStream)}: {@link InputStream} 转字节数组</li>
+ *     <li>{@link #convertToFileInputStream(InputStream)}: {@link InputStream} 转 {@link FileInputStream}</li>
  * </ol>
  *
  * @author LZH
@@ -305,18 +307,52 @@ public class FileTool {
      * @param is {@link InputStream}
      * @return byte[]
      */
-    public static byte[] getBytes(InputStream is) {
+    public static byte[] convertToBytes(InputStream is) {
         ReadableByteChannel channel = Channels.newChannel(is);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        while (true) {
-            try {
-                if (channel.read(buffer) == -1) break;
-            } catch (IOException e) {
-                log.error("IO Error: ", e);
+        try {
+            while (channel.read(buffer) != -1) {
+                buffer.flip();
             }
-            buffer.flip();
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
         }
         return buffer.array();
+    }
+
+    /**
+     * {@link InputStream} 转 {@link FileInputStream}
+     *
+     * @param is {@link InputStream}
+     * @return {@link FileInputStream}
+     */
+    public static FileInputStream convertToFileInputStream(InputStream is) {
+        try {
+            Path temp = Files.createTempFile("resource-", "ext");
+            Files.copy(is, temp, StandardCopyOption.REPLACE_EXISTING);
+            return new FileInputStream(temp.toFile());
+        } catch (IOException e) {
+            log.error("IO Error: ", e);
+        }
+        return null;
+    }
+
+    // Thumbnails.of(new File("original.jpg"))
+    //    .size(160, 160)
+    //    .toFile(new File("thumbnail.jpg"));
+
+    // // Read a Word document
+    //File file = new File("document.docx");
+    //FileInputStream fis = new FileInputStream(file);
+    //XWPFDocument document = new XWPFDocument(fis);
+    //
+    //// Read a PDF document
+    //File file = new File("document.pdf");
+    //PDDocument document = PDDocument.load(file);
+
+    // https://blog.csdn.net/qq_39746820/article/details/121140179
+    public static File thumbnails(File src) {
+        return new File("");
     }
 
 }

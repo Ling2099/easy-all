@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
  * @version 1.0.4
  * @since 2023-05-21
  */
-public interface LogExtend {
+public interface LogInterface {
 
     /**
      * 记录日志
