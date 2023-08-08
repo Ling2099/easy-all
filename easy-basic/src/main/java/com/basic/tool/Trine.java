@@ -1,7 +1,7 @@
 package com.basic.tool;
 
 /**
- * 三个一组
+ * Pair 扩展
  *
  * @author LZH
  * @version 1.0.7
