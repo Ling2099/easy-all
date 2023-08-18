@@ -1,18 +1,29 @@
 package com.orm.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.orm.domain.PageEntity;
+import org.apache.ibatis.binding.MapperMethod;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Mapper 继承该接口后，无需编写 mapper.xml 文件，即可获得 CRUD 功能
@@ -23,7 +34,7 @@ import java.util.List;
  * @version 1.0.0
  * @since 2023-05-02
  */
-@SuppressWarnings("UnusedReturnValue")
+@SuppressWarnings({"UnusedReturnValue", "unchecked"})
 public interface RootMapper<T> extends BaseMapper<T> {
 
     /**
@@ -48,6 +59,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @param list      实体对象集合
      * @param batchSize 批次大小
      */
+    @Transactional(rollbackFor = Exception.class)
     default void insertBatch(Collection<T> list, int batchSize) {
         Assert.isFalse(batchSize < 1, "batchSize must not be less than one");
         split(list, batchSize).forEach(this::insertBatch);
@@ -59,35 +71,99 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @param list      实体对象集合
      * @param batchSize 批次大小
      */
+    @Transactional(rollbackFor = Exception.class)
     default void updateBatch(Collection<T> list, int batchSize) {
         Assert.isFalse(batchSize < 1, "batchSize must not be less than one");
         split(list, batchSize).forEach(this::updateBatch);
     }
 
     /**
+     * 批量操作
+     *
+     * @param list      数据集合
+     * @param batchSize 批次大小
+     * @param consumer  {@link BiConsumer}
+     * @param <E>       泛型
+     * @return 是否成功
+     * @since 1.0.11
+     */
+    default <E> boolean executeBatch(Collection<E> list, int batchSize, BiConsumer<SqlSession, E> consumer) {
+        Class<?> entity = ReflectionKit.getSuperClassGenericType(this.getClass(), ServiceImpl.class, 1);
+        Log log = LogFactory.getLog(RootMapper.class);
+        return SqlHelper.executeBatch(entity, log, list, batchSize, consumer);
+    }
+
+    /**
      * 批量更新, 根据主键 ID
      *
-     * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>
-     *
-     * @param list 实体对象集合
+     * @param list 数据集合
+     * @return 是否成功
+     * @since 1.0.11
      */
-    default void updateBatchById(Collection<T> list) {
-        list.forEach(this::updateById);
+    default boolean updateBatchById(Collection<T> list) {
+        return this.updateBatchById(list, 1000);
+    }
+
+    /**
+     * 批量更新, 根据主键 ID
+     *
+     * @param list      数据集合
+     * @param batchSize 批次大小
+     * @return 是否成功
+     * @since 1.0.11
+     */
+    @Transactional(rollbackFor = Exception.class)
+    default boolean updateBatchById(Collection<T> list, int batchSize) {
+        Class<?> mapper = ReflectionKit.getSuperClassGenericType(this.getClass(), ServiceImpl.class, 0);
+        String sqlStatement = SqlHelper.getSqlStatement(mapper, SqlMethod.UPDATE_BY_ID);
+        return this.executeBatch(list, batchSize, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
+            param.put("et", entity);
+            sqlSession.update(sqlStatement, param);
+        });
     }
 
     /**
      * 批量更新或插入
      *
-     * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>
-     *
-     * @param list 实体对象集合
+     * @param list 数据集合
+     * @return 是否成功
+     * @since 1.0.11
      */
-    default void saveOrUpdateBatch(Collection<T> list) {
-        list.forEach(this::saveOrUpdate);
+    default boolean saveOrUpdateBatch(Collection<T> list) {
+        return saveOrUpdateBatch(list, 1000);
     }
 
     /**
      * 批量更新或插入
+     *
+     * @param list      数据集合
+     * @param batchSize 批次大小
+     * @return 是否成功
+     * @since 1.0.11
+     */
+    default boolean saveOrUpdateBatch(Collection<T> list, int batchSize) {
+        Class<?> entityClass = ReflectionKit.getSuperClassGenericType(this.getClass(), ServiceImpl.class, 1);
+        Class<?> mapperClass = ReflectionKit.getSuperClassGenericType(this.getClass(), ServiceImpl.class, 0);
+        Log log = LogFactory.getLog(RootMapper.class);
+
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(entityClass);
+        Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+        String keyProperty = tableInfo.getKeyProperty();
+        Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+        return SqlHelper.saveOrUpdateBatch(entityClass, mapperClass, log, list, batchSize, (sqlSession, entity) -> {
+            Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
+            return StringUtils.checkValNull(idVal)
+                    || CollectionUtils.isEmpty(sqlSession.selectList(SqlHelper.getSqlStatement(mapperClass, SqlMethod.SELECT_BY_ID), entity));
+        }, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.update(SqlHelper.getSqlStatement(mapperClass, SqlMethod.UPDATE_BY_ID), param);
+        });
+    }
+
+    /**
+     * 批量更新或插入（带条件）
      *
      * <p style="color:red">非必要勿调用此方法（数据量少可斟酌）, 原因见代码</p>
      *
@@ -146,6 +222,19 @@ public interface RootMapper<T> extends BaseMapper<T> {
      */
     default List<T> list() {
         return selectList(Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 查询数据（带条件）, 并转换
+     *
+     * @param queryWrapper {@link Wrapper}
+     * @param mapper       {@link Function}
+     * @param <V>          泛型
+     * @return {@link List}
+     * @since 1.0.11
+     */
+    default <V> List<V> list(Wrapper<T> queryWrapper, Function<? super Object, V> mapper) {
+        return selectObjs(queryWrapper).stream().filter(Objects::nonNull).map(mapper).collect(Collectors.toList());
     }
 
     /**
