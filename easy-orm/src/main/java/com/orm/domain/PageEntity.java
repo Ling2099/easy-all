@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @since 2023-05-02
  */
-@SuppressWarnings("JavaDoc")
+@SuppressWarnings({"JavaDoc", "SpellCheckingInspection"})
 public class PageEntity implements Serializable {
 
     private static final long serialVersionUID = -7066207669309293709L;
@@ -124,5 +124,23 @@ public class PageEntity implements Serializable {
      */
     public void setDescs(String[] descs) {
         this.descs = descs;
+    }
+
+    /**
+     * 验证 {@link #ascs} 数组不为空
+     *
+     * @return boolean
+     */
+    public boolean isNotBlankAscs() {
+        return this.ascs != null && this.ascs.length != 0;
+    }
+
+    /**
+     * 验证 {@link #descs} 数组不为空
+     *
+     * @return boolean
+     */
+    public boolean isNotBlankDescs() {
+        return this.descs != null && this.descs.length != 0;
     }
 }

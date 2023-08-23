@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.*;
@@ -117,7 +118,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
         Class<?> mapper = ReflectionKit.getSuperClassGenericType(this.getClass(), ServiceImpl.class, 0);
         String sqlStatement = SqlHelper.getSqlStatement(mapper, SqlMethod.UPDATE_BY_ID);
         return this.executeBatch(list, batchSize, (sqlSession, entity) -> {
-            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
             param.put("et", entity);
             sqlSession.update(sqlStatement, param);
         });
@@ -210,9 +211,19 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 条件构造器 {@link Wrapper}
      * @param <P>          泛型, 必须继承至 {@link PageEntity}
      * @return 分页查询结果 {@link IPage}
+     * @since 1.0.11
      */
     default <P extends PageEntity> IPage<T> page(P page, Wrapper<T> queryWrapper) {
-        return selectPage(new Page<>(page.getPageNum(), page.getPageSize()), queryWrapper);
+        Page<T> p = new Page<>(page.getPageNum(), page.getPageSize());
+        // 正序
+        if (page.isNotBlankAscs()) {
+            p.addOrder(OrderItem.ascs(page.getAscs()));
+        }
+        // 倒序
+        if (page.isNotBlankDescs()) {
+            p.addOrder(OrderItem.descs(page.getDescs()));
+        }
+        return selectPage(p, queryWrapper);
     }
 
     /**
