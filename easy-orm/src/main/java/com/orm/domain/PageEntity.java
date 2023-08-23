@@ -33,9 +33,25 @@ public class PageEntity implements Serializable {
     private Integer pageSize;
 
     /**
+     * 排序字段（正序）
+     *
+     * @mock {"id", "name", "sex"}
+     * @since 1.0.11
+     */
+    private String[] ascs;
+
+    /**
+     * 排序字段（倒序）
+     *
+     * @mock {"id", "name", "sex"}
+     * @since 1.0.11
+     */
+    private String[] descs;
+
+    /**
      * getter function
      *
-     * @return
+     * @return {@link #pageNum}
      */
     public Integer getPageNum() {
         return pageNum;
@@ -55,7 +71,7 @@ public class PageEntity implements Serializable {
     /**
      * getter function
      *
-     * @return {@link Integer}
+     * @return {@link #pageSize}
      */
     public Integer getPageSize() {
         return pageSize;
@@ -70,5 +86,43 @@ public class PageEntity implements Serializable {
     public PageEntity setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link #ascs}
+     */
+    public String[] getAscs() {
+        return ascs;
+    }
+
+    /**
+     * setter function
+     *
+     * @param ascs {@link #ascs}
+     * @return {@link PageEntity}
+     */
+    public PageEntity setAscs(String[] ascs) {
+        this.ascs = ascs;
+        return this;
+    }
+
+    /**
+     * getter function
+     *
+     * @return {@link #descs}
+     */
+    public String[] getDescs() {
+        return descs;
+    }
+
+    /**
+     * setter function
+     *
+     * @param descs {@link #descs}
+     */
+    public void setDescs(String[] descs) {
+        this.descs = descs;
     }
 }
