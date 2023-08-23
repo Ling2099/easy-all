@@ -92,6 +92,7 @@ public class PageEntity implements Serializable {
      * getter function
      *
      * @return {@link #ascs}
+     * @since 1.0.11
      */
     public String[] getAscs() {
         return ascs;
@@ -102,6 +103,7 @@ public class PageEntity implements Serializable {
      *
      * @param ascs {@link #ascs}
      * @return {@link PageEntity}
+     * @since 1.0.11
      */
     public PageEntity setAscs(String[] ascs) {
         this.ascs = ascs;
@@ -112,6 +114,7 @@ public class PageEntity implements Serializable {
      * getter function
      *
      * @return {@link #descs}
+     * @since 1.0.11
      */
     public String[] getDescs() {
         return descs;
@@ -121,6 +124,7 @@ public class PageEntity implements Serializable {
      * setter function
      *
      * @param descs {@link #descs}
+     * @since 1.0.11
      */
     public void setDescs(String[] descs) {
         this.descs = descs;
@@ -130,6 +134,7 @@ public class PageEntity implements Serializable {
      * 验证 {@link #ascs} 数组不为空
      *
      * @return boolean
+     * @since 1.0.11
      */
     public boolean isNotBlankAscs() {
         return this.ascs != null && this.ascs.length != 0;
@@ -139,6 +144,7 @@ public class PageEntity implements Serializable {
      * 验证 {@link #descs} 数组不为空
      *
      * @return boolean
+     * @since 1.0.11
      */
     public boolean isNotBlankDescs() {
         return this.descs != null && this.descs.length != 0;
