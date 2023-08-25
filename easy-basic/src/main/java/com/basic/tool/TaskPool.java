@@ -159,7 +159,7 @@ public class TaskPool {
             // 时间单位
             TimeUnit.SECONDS,
             // 阻塞队列
-            new LinkedBlockingDeque<>(),
+            new LinkedBlockingDeque<>(16),
             // 自定义创建线程的工厂
             new NamedThreadFactory(),
             // 自定义拒绝策略
