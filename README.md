@@ -44,8 +44,7 @@ public class Bye {
 
 特别感谢 [JetBrains](https://www.jetbrains.com/?from=Easy-All) 的支持
 
-![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
-
+![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png#pic_center)
 
 
 
