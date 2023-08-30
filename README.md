@@ -42,18 +42,9 @@ public class Bye {
 
 ## 谢鸣
 
-![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)特别感谢 [JetBrains](https://www.jetbrains.com/?from=Easy-All) 的支持
+&#x1F389; &#x2728; $\color{#FFB3FF}{特}$$\color{#F0BBFF}{别}$$\color{#E8CCFF}{感}$$\color{#D1BBFF}{谢}$$\color{#CCBBFF}{[JetBrains](https://www.jetbrains.com/?from=Easy-All)}$$\color{#CCCCFF}{的}$$\color{#CCDDFF}{大}$$\color{#CCEEFF}{力}$$\color{#99FFFF}{支}$$\color{#AAFFEE}{持}$$\color{#BBFFEE}{!!!}$ &#x2728; &#x1F389;
 
-<center>
-    <img style="border-radius: 0.3125em;
-    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="https://gitee.com/supersame/easy-all/raw/master/jb_beam.png">
-    <br>
-    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
-    display: inline-block;
-    color: #999;
-    padding: 2px;">这里输入题注</div>
-</center>
+![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
 
 
 
