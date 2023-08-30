@@ -14,7 +14,7 @@
 
 ## 安装
 
-+ Maven:
+#### Maven:
 ~~~xml
 <dependency>
     <groupId>com.github.Ling2099</groupId>
@@ -23,7 +23,7 @@
 </dependency>
 ~~~
 
-+ Gradle:
+#### Gradle:
 ~~~gradle
 implementation 'com.github.Ling2099:easy-basic:latest version'
 // 或者
