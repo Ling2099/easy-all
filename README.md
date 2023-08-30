@@ -48,5 +48,8 @@ public class Bye {
 ![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png#pic_center)
 </div>
 
+<div style="display: flex;justify-content: center;align-items: center;">
+  <img src="https://gitee.com/supersame/easy-all/raw/master/jb_beam.png" alt="图片描述" style="display: block; margin: 0 auto;" />
+</div>
 
 
