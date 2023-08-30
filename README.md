@@ -42,14 +42,6 @@ public class Bye {
 
 ## 谢鸣
 
-特别感谢 [JetBrains](https://www.jetbrains.com/?from=Easy-All) 的支持
-
-<div style="display: flex;justify-content: center;align-items: center;">
-![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png#pic_center)
-</div>
-
-<div style="display: flex;justify-content: center;align-items: center;">
-  <img src="https://gitee.com/supersame/easy-all/raw/master/jb_beam.png" alt="图片描述" style="display: block; margin: 0 auto;" />
-</div>
+特别感谢 [JetBrains SoftWare](https://www.jetbrains.com/?from=Easy-All) 免费的开源授权 ![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
 
 
