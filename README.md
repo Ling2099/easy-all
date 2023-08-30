@@ -46,7 +46,7 @@ Easy-All 使用 [Apache2.0开源协议](https://www.apache.org/licenses/LICENSE-
 
 ## 谢鸣
 
-![JetBrains 徽标（主）徽标]（https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png）
+![JetBrains 徽标（主）徽标](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
 
 
 
