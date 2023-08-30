@@ -14,7 +14,7 @@
 
 ## 安装
 
-Maven:
++ Maven:
 ~~~xml
 <dependency>
     <groupId>com.github.Ling2099</groupId>
@@ -23,14 +23,14 @@ Maven:
 </dependency>
 ~~~
 
-Gradle:
++ Gradle:
 ~~~gradle
 implementation 'com.github.Ling2099:easy-basic:latest version'
 // 或者
 implementation group: 'com.github.Ling2099', name: 'easy-basic', version: 'latest version'
 ~~~
 
-## 示例
+## 憧憬
 
 ~~~Java
 public class Bye {
@@ -39,4 +39,15 @@ public class Bye {
     }
 }
 ~~~
+
+## 授权
+
+Easy-All 使用 [Apache2.0开源协议](https://www.apache.org/licenses/LICENSE-2.0), 允许商业使用。请务必保留类作者、Copyright信息。
+
+## 谢鸣
+
+![JetBrains 徽标（主）徽标]（https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png）
+
+
+
 
