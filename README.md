@@ -42,6 +42,8 @@ public class Bye {
 
 ## 谢鸣
 
-特别感谢 [JetBrains SoftWare](https://www.jetbrains.com/?from=Easy-All) 免费的开源授权 ![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
+特别感谢 [JetBrains SoftWare](https://www.jetbrains.com/?from=Easy-All) 免费的开源授权 
+
+![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
 
 
