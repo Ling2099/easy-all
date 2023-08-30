@@ -42,7 +42,7 @@ public class Bye {
 
 ## 谢鸣
 
-&#x1F389; &#x2728; $\color{#FFB3FF}{特}$$\color{#F0BBFF}{别}$$\color{#E8CCFF}{感}$$\color{#D1BBFF}{谢}$$\color{#CCBBFF}{[JetBrains](https://www.jetbrains.com/?from=Easy-All)}$$\color{#CCCCFF}{的}$$\color{#CCDDFF}{大}$$\color{#CCEEFF}{力}$$\color{#99FFFF}{支}$$\color{#AAFFEE}{持}$$\color{#BBFFEE}{!!!}$ &#x2728; &#x1F389;
+特别感谢 [JetBrains](https://www.jetbrains.com/?from=Easy-All)
 
 ![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
 
