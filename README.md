@@ -40,14 +40,9 @@ public class Bye {
 }
 ~~~
 
-## 商业授权
+## 谢鸣
 
-Easy-All 使用 [Apache2.0开源协议](https://www.apache.org/licenses/LICENSE-2.0), 允许商业使用。  
-请务必保留类作者、Copyright信息。
-
-## 感谢 JetBrains 的支持
-
-![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)
+![JetBrains 徽标（主）徽标](https://gitee.com/supersame/easy-all/raw/master/jb_beam.png)特别感谢
 
 
 
