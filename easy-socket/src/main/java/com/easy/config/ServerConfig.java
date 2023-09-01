@@ -1,7 +1,7 @@
 package com.easy.config;
 
 import com.easy.handler.HeartbeatHandler;
-import com.easy.handler.WebSocketHandler;
+import com.easy.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -91,7 +91,7 @@ public class ServerConfig {
                                     .addLast(new HttpObjectAggregator(8192))
                                     .addLast(new IdleStateHandler(0, 0, 300, TimeUnit.SECONDS))
                                     .addLast(new HeartbeatHandler())
-                                    .addLast(new WebSocketHandler())
+                                    .addLast(new ServerHandler())
                                     .addLast(new WebSocketServerCompressionHandler())
                                     .addLast(new WebSocketServerProtocolHandler(
                                             "/socket",

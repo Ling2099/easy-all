@@ -8,13 +8,13 @@ buildscript {
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			// url 'http://192.168.0.35:8081/repository/maven-releases/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			// url 'http://192.168.0.35:8081/repository/maven-snapshots/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -55,13 +55,13 @@ allprojects {
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			// url 'http://192.168.0.35:8081/repository/maven-releases/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			// url 'http://192.168.0.35:8081/repository/maven-snapshots/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -108,13 +108,13 @@ subprojects {
 		mavenLocal()
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
+			// url 'http://192.168.0.35:8081/repository/maven-releases/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
-			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
+			// url 'http://192.168.0.35:8081/repository/maven-snapshots/'
+			url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -244,8 +244,8 @@ project(':easy-orm') {
 
 project(':easy-socket') {
 	dependencies {
-		compileOnly 'io.netty:netty-all:5.0.0.Alpha2'
-		// compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
+		// compileOnly 'io.netty:netty-all:5.0.0.Alpha2'
+		compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
 	}
 }
 

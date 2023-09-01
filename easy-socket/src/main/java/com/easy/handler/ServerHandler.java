@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 自定义 WebSocket Handler 处理器
+ * 自定义 Server Handler 处理器
  *
  * <ol>
  *     <li>建立连接</li>
@@ -29,9 +29,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0.11
  * @since 2023-09-01
  */
-public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class ServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
-    private static final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ServerHandler.class);
 
     /**
      * 定义 Channel 组, 用以管理客户端所请求过来的所有 Channel
