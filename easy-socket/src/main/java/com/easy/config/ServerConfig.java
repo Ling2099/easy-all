@@ -1,6 +1,7 @@
 package com.easy.config;
 
 import com.easy.handler.HeartbeatHandler;
+import com.easy.handler.WebSocketHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -13,6 +14,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
@@ -21,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.lang.NonNull;
 
 import javax.annotation.PostConstruct;
 import java.net.InetSocketAddress;
@@ -69,37 +72,35 @@ public class ServerConfig {
                     .option(ChannelOption.SO_KEEPALIVE, Boolean.TRUE)
                     .option(ChannelOption.SO_BACKLOG, 65536)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
-
-                        /**
-                         * 初始化 Channel
-                         *
-                         * @param channel {@link SocketChannel}
-                         */
                         @Override
-                        protected void initChannel(SocketChannel channel) {
-                            // 0、获取 Pipeline 管道
-                            // 1、设置 HTTP 解编码器, 因为 WebSocket 协议本身是基于 HTTP 协议的
-                            // 2、以块的方式来写的处理器(添加对于读写大数据流的支持)
-                            // 3、Http 数据在传输过程中是分段的, HttpObjectAggregator 可以将多个段聚合（当浏览器发送大量数据时, 就会发送多次http请求）
-                            // 4、设置 WebSocket 心跳机制, 即 300s 空闲时间未收到客户端消息, 则断开连接, 减少资源浪费
-                            // 5、将心跳处理器添加至管道中
-                            // 6、自定义业务处理的 Handler
-                            // 7、WebSocket 数据压缩扩展
-                            // 8、WebSocket 服务器处理的协议（数据以帧 frame 的形式传输）, 同时将 HTTP 协议升级成为 ws 协议
+                        protected void initChannel(@NonNull SocketChannel channel) {
+                            // 0、 获取 Pipeline 管道
+                            // 1、 设置 HTTP 解编码器, 因为 WebSocket 协议本身是基于 HTTP 协议的
+                            // 2、 以块的方式来写的处理器(添加对于读写大数据流的支持)
+                            // 3、 Http 数据在传输过程中是分段的, HttpObjectAggregator 可以将多个段聚合（当浏览器发送大量数据时, 就会发送多次http请求）
+                            // 4、 设置 WebSocket 心跳机制, 即 300s 空闲时间未收到客户端消息, 则断开连接, 减少资源浪费
+                            // 5、 将心跳处理器添加至管道中
+                            // 6、 自定义业务处理的 Handler
+                            // 7、 WebSocket 数据压缩扩展
+                            // 8、 WebSocket 服务器处理的协议（数据以帧 frame 的形式传输）, 同时将 HTTP 协议升级成为 ws 协议
+                            // 9、 添加解码器
+                            // 10、添加编码器
                             channel.pipeline()
                                     .addLast(new HttpServerCodec())
                                     .addLast(new ChunkedWriteHandler())
                                     .addLast(new HttpObjectAggregator(8192))
                                     .addLast(new IdleStateHandler(0, 0, 300, TimeUnit.SECONDS))
                                     .addLast(new HeartbeatHandler())
-                                    // .addLast(new WebSocketHandler())
+                                    .addLast(new WebSocketHandler())
                                     .addLast(new WebSocketServerCompressionHandler())
                                     .addLast(new WebSocketServerProtocolHandler(
                                             "/socket",
                                             "WebSocket",
                                             true,
                                             655360
-                                    ));
+                                    ))
+                                    .addLast("decoder", new StringDecoder())
+                                    .addLast("encoder", new StringDecoder());
                         }
                     });
 

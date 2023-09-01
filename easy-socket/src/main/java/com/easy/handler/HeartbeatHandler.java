@@ -26,7 +26,8 @@ public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {
             // 当客户端失活时, 首先推送通知消息, 然后再关闭 Channel
-            ctx.writeAndFlush(MessageVo.wrap(NumEnum.NINE, NumEnum.NINE.getMsg()));
+            // ctx.writeAndFlush(MessageVo.wrap(NumEnum.NINE, NumEnum.NINE.getMsg()));
+            ctx.writeAndFlush("关闭关闭");
             // 关闭对应通道
             ctx.channel().close();
         } else {
