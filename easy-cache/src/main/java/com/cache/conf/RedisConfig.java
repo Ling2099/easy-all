@@ -1,7 +1,6 @@
 package com.cache.conf;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -12,9 +11,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  *
  * @author LZH
  * @version 1.0.5
- * @since 2023-05-02
+ * @since 2023/05/02
  */
-@Configuration
 public class RedisConfig {
 
     /**

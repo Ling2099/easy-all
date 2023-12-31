@@ -5,7 +5,7 @@ package com.basic.exception;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-02
+ * @since 2023/05/02
  */
 public class BaseException extends RuntimeException {
 

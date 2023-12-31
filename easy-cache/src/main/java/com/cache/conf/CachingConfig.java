@@ -108,7 +108,7 @@ import java.util.logging.Logger;
  *
  * @author LZH
  * @version 1.0.5
- * @since 2023-06-01
+ * @since 2023/06/01
  */
 @EnableCaching
 @ConditionalOnProperty(name = "easy.cache")
@@ -132,7 +132,7 @@ public class CachingConfig implements CachingConfigurer {
             // 设置缓存的默认过期时间 ==> 注意: 这里后面改为配置文件
             .entryTtl(Duration.ofSeconds(600))
             // cacheable key 双冒号变为单冒号
-            .computePrefixWith(name -> ":")
+            .computePrefixWith(this::convert)
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class)))
             // 不缓存空值
@@ -142,6 +142,16 @@ public class CachingConfig implements CachingConfigurer {
             .builder(factory)
             .cacheDefaults(config)
             .build();
+    }
+
+    /**
+     * cacheable key 双冒号变为单冒号
+     *
+     * @param name 双冒号字符
+     * @return 单冒号字符
+     */
+    private String convert(String name) {
+        return ":";
     }
 
     /**

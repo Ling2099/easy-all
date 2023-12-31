@@ -105,7 +105,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author LZH
  * @version 1.0.7
- * @since 2023-06-09
+ * @since 2023/06/09
  */
 public class FileTool {
 
@@ -248,7 +248,7 @@ public class FileTool {
         byte[] buffer = new byte[chunkSize];
         String fileName = source.getName();
         int partCounter = 0;
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(source))) {
+        try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(source.toPath()))) {
             int bytesAmount = 0;
             while ((bytesAmount = bis.read(buffer)) > 0) {
                 String filePartName = String.format("%s.%03d", fileName, partCounter++);

@@ -12,7 +12,7 @@ import org.springframework.web.util.pattern.PathPatternParser;
  *
  * @author LZH
  * @version 1.0.9
- * @since 2023-07-21
+ * @since 2023/07/21
  */
 @ConditionalOnProperty(name = "easy.cross")
 public class GlobalCrossConfig {

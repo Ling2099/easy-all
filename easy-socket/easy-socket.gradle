@@ -1,4 +1,0 @@
-description = 'WebSocket 组件依赖'
-
-jar.enabled = true
-bootJar.enabled = false

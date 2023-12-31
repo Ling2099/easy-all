@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
  *
  * @author LZH
  * @version 1.0.8
- * @since 2023-07-14
+ * @since 2023/07/14
  */
 public class MinioConfig {
 

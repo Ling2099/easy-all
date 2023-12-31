@@ -28,7 +28,7 @@ import org.springframework.web.server.ServerWebExchange;
  *
  * @author LZH
  * @version 1.0.9
- * @since 2023-07-21
+ * @since 2023/07/21
  */
 @RestControllerAdvice
 @ConditionalOnProperty(name = "easy.exception-webflux")

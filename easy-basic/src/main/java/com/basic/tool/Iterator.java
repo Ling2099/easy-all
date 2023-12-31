@@ -8,9 +8,9 @@ import java.util.function.Consumer;
  *
  * @author LZH
  * @version 1.0.7
- * @since 2023-06-15
+ * @since 2023/06/15
  */
-public class Index {
+public class Iterator {
 
     /**
      * {@link java.lang.Iterable#forEach(Consumer)} 循环时同时获取数据与下标
@@ -24,7 +24,7 @@ public class Index {
             int index;
         }
         Count count = new Count();
-        return i -> consumer.accept(count.index++, i);
+        return item -> consumer.accept(count.index++, item);
     }
 
 }

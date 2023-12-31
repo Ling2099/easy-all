@@ -1,3 +1,4 @@
 com.easy.config.GlobalCrossConfig
 com.easy.config.GlobalWebException
 com.easy.config.GlobalWebfluxException
+com.easy.aspect.ValidParams

@@ -38,7 +38,7 @@ import java.util.function.Consumer;
  *
  * @author LZH
  * @version 1.0.9
- * @since 2023-07-22
+ * @since 2023/07/22
  */
 public class ExcelTool extends AbstractStream {
 
@@ -137,7 +137,7 @@ public class ExcelTool extends AbstractStream {
      * @param consumer 客户端自定义方法
      * @param <T>      泛型
      */
-    public <T> void parse(InputStream in, Class<T> clazz, Consumer<List<T>> consumer) {
+    public static <T> void parse(InputStream in, Class<T> clazz, Consumer<List<T>> consumer) {
         ExcelListener<T> listener = new ExcelListener<>(consumer);
         EasyExcel.read(in, clazz, listener).sheet().doReadSync();
     }
@@ -151,7 +151,7 @@ public class ExcelTool extends AbstractStream {
      * @param consumer  客户端自定义方法
      * @param <T>       泛型
      */
-    public <T> void parse(InputStream in, Class<T> clazz,
+    public static <T> void parse(InputStream in, Class<T> clazz,
                           int batchSize, Consumer<List<T>> consumer) {
         ExcelListener<T> listener = new ExcelListener<>(batchSize, consumer);
         EasyExcel.read(in, clazz, listener).sheet().doReadSync();
@@ -178,7 +178,7 @@ public class ExcelTool extends AbstractStream {
      *     </li>
      * </ul>
      */
-    public <T> Pair<List<T>, List<Head<?>>> parse(InputStream in, Class<T> clazz, int rowNumber) {
+    public static <T> Pair<List<T>, List<Head<?>>> parse(InputStream in, Class<T> clazz, int rowNumber) {
         ExcelListener<T> listener = new ExcelListener<>();
         EasyExcel.read(in, clazz, listener)
                 .sheet()

@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-19
+ * @since 2023/05/19
  */
 @RestControllerAdvice
 @ConditionalOnProperty(name = "easy.exception-web")

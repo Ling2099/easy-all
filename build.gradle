@@ -9,12 +9,10 @@ buildscript {
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -56,12 +54,10 @@ allprojects {
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -109,12 +105,10 @@ subprojects {
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-releases/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 		}
 		maven {
 			allowInsecureProtocol = true
 			url 'http://192.168.0.35:8081/repository/maven-snapshots/'
-			// url 'http://192.168.0.110:8081/nexus/content/repositories/snapshots/'
 		}
 		maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
 		mavenCentral()
@@ -165,15 +159,14 @@ subprojects {
 				}
 			}
 
-			// 本地仓库（应急、测试时使用）
+			// 本地仓库（测试时使用）
 			maven {
 				name 'local'
 				allowInsecureProtocol = true
 				url 'http://192.168.0.35:8081/repository/maven-releases/'
-				// url 'http://192.168.0.110:8081/nexus/content/repositories/releases/'
 				credentials {
 					username 'admin'
-					password 'admin123'
+					password '123456'
 				}
 			}
 		}
@@ -242,17 +235,18 @@ project(':easy-orm') {
 	}
 }
 
-project(':easy-socket') {
-	dependencies {
-		compileOnly 'io.netty:netty-all:5.0.0.Alpha2'
-		// compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
-	}
-}
+//project(':easy-socket') {
+//	dependencies {
+//		// compileOnly 'io.netty:netty-all:5.0.0.Alpha2'
+//		compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
+//	}
+//}
 
 project(':easy-web') {
 	dependencies {
 		api project(':easy-basic')
-		compileOnly 'org.springframework.boot:spring-boot-starter-web:2.7.11'
-		compileOnly 'org.springframework.boot:spring-boot-starter-webflux:2.7.11'
+		compileOnly 'org.springframework.boot:spring-boot-starter-web'
+		compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
+		compileOnly 'org.springframework.boot:spring-boot-starter-aop'
 	}
 }

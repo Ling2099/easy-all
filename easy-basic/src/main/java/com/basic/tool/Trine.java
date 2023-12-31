@@ -5,7 +5,7 @@ package com.basic.tool;
  *
  * @author LZH
  * @version 1.0.7
- * @since 2023-06-15
+ * @since 2023/06/15
  */
 public class Trine<T, K, V> {
 

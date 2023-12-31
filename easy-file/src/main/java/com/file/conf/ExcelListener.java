@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  *
  * @author LZH
  * @version 1.0.7
- * @since 2023-06-14
+ * @since 2023/06/14
  */
 public class ExcelListener<T> implements ReadListener<T> {
 
@@ -94,7 +94,7 @@ public class ExcelListener<T> implements ReadListener<T> {
     @Override
     public void invokeHead(Map<Integer, ReadCellData<?>> headMap, AnalysisContext context) {
         if (head != null) {
-            headMap.forEach((k, v) -> head.add(new Head<>(v.getRowIndex(), v.getColumnIndex(), getVal(v))));
+            headMap.forEach(this::add);
         }
     }
 
@@ -127,6 +127,16 @@ public class ExcelListener<T> implements ReadListener<T> {
      */
     public List<Head<?>> getHead() {
         return head;
+    }
+
+    /**
+     * 添加集合元素
+     *
+     * @param key   Map key
+     * @param value {@link ReadCellData}
+     */
+    private void add(Integer key, ReadCellData<?> value) {
+        head.add(new Head<>(value.getRowIndex(), value.getColumnIndex(), getVal(value)));
     }
 
     /**

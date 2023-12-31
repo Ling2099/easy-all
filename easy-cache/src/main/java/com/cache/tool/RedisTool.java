@@ -129,7 +129,7 @@ import java.util.stream.Collectors;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-02
+ * @since 2023/05/02
  */
 @SuppressWarnings(value = {"unchecked", "ClassCanBeRecord", "ConstantConditions", "ConfusingArgumentToVarargsMethod"})
 public class RedisTool {

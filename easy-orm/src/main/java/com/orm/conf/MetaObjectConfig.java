@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-06
+ * @since 2023/05/06
  */
 @ConditionalOnProperty(name = "easy.meta")
 public class MetaObjectConfig implements MetaObjectHandler {

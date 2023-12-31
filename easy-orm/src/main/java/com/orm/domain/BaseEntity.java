@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-02
+ * @since 2023/05/02
  */
 @SuppressWarnings("JavaDoc")
 public class BaseEntity<T extends Model<T>> extends Model<T> {

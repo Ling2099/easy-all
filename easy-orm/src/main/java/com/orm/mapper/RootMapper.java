@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-02
+ * @since 2023/05/02
  */
-@SuppressWarnings({"UnusedReturnValue", "unchecked"})
+@SuppressWarnings({"UnusedReturnValue"})
 public interface RootMapper<T> extends BaseMapper<T> {
 
     /**
@@ -101,6 +101,7 @@ public interface RootMapper<T> extends BaseMapper<T> {
      * @return 是否成功
      * @since 1.0.11
      */
+    @Transactional(rollbackFor = Exception.class)
     default boolean updateBatchById(Collection<T> list) {
         return this.updateBatchById(list, 1000);
     }

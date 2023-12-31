@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
  *
  * @author LZH
  * @version 1.0.4
- * @since 2023-05-21
+ * @since 2023/05/21
  */
 public interface LogInterface {
 

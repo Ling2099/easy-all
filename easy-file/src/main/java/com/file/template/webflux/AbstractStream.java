@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  *
  * @author LZH
  * @version 1.0.9
- * @since 2023-07-23
+ * @since 2023/07/23
  */
 public abstract class AbstractStream {
 

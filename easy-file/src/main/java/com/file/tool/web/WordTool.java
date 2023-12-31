@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  *
  * @author LZH
  * @version 1.0.7
- * @since 2023-06-19
+ * @since 2023/06/19
  */
 @SuppressWarnings({"ConstantConditions", "DuplicatedCode"})
 public final class WordTool extends AbstractStream {

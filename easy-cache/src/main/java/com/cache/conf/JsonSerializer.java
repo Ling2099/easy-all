@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author LZH
  * @version 1.0.5
- * @since 2023-06-01
+ * @since 2023/06/01
  */
 public class JsonSerializer<T> implements RedisSerializer<T> {
 
@@ -51,7 +51,7 @@ public class JsonSerializer<T> implements RedisSerializer<T> {
      */
     @Override
     public T deserialize(byte[] bytes) {
-        if (bytes == null || bytes.length <= 0) {
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
         String str = new String(bytes, StandardCharsets.UTF_8);

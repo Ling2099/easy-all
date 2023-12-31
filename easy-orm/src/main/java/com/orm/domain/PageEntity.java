@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author LZH
  * @version 1.0.0
- * @since 2023-05-02
+ * @since 2023/05/02
  */
 @SuppressWarnings({"JavaDoc", "SpellCheckingInspection"})
 public class PageEntity implements Serializable {
