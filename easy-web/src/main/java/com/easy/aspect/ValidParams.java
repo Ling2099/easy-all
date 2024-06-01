@@ -36,15 +36,13 @@ public class ValidParams implements ApplicationContextAware {
     @Before(value = "@annotation(com.easy.annotations.Validation)")
     public void doBefore(JoinPoint joinPoint) {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        if (method.isAnnotationPresent(Validation.class)) {
-            Validation annotation = method.getAnnotation(Validation.class);
-            Class<?> clazz = annotation.value();
-            ValidInterface anInterface = (ValidInterface) applicationContext.getBean(clazz);
-            Optional
-                .of(anInterface)
-                .orElseThrow(this::isNull)
-                .handle(joinPoint.getArgs());
-        }
+        Validation annotation = method.getAnnotation(Validation.class);
+        Class<?> clazz = annotation.value();
+        ValidInterface anInterface = (ValidInterface) applicationContext.getBean(clazz);
+        Optional
+            .of(anInterface)
+            .orElseThrow(this::isNull)
+            .handle(joinPoint.getArgs());
     }
 
     /**
